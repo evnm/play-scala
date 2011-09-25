@@ -4,7 +4,7 @@ Most of your applications will need to access to a database. This page describe 
 
 h2. Using Anorm
 
-The Scala module includes a brand new data access layer called *Anorm* that uses plain SQL to make your database requests and provides several APIs to parse and transform the resulting datasets.
+The Scala module includes a brand new data access layer called *Anorm* that uses plain SQL to make your database requests and provides several APIs to parse and transform the resulting datasets. 
 
 We believe that this is the best way to access your relational databases from Scala and this component will be encouraged and fully integrated with the rest of the Play Scala stack.
 
@@ -21,19 +21,19 @@ h3. 1. Add ScalaQuery to your dependencies.yml file
 "ScalaQuery":http://scalaquery.org/download.html is available from the "Scala Tools repository":http://scala-tools.org/repo-releases/org/scalaquery/. So open your application **conf/depenencies.yml** file, and add the following content:
 
 bc. # Application dependencies
-
+ 
 require:
     - play
     - play -> scala 0.9
     - org.scalaquery -> scalaquery_2.8.1 0.9.1:
         transitive:     false
-
+    
 repositories:
-
+    
     - Scala Tools:
         type:       iBiblio
         root:       http://scala-tools.org/repo-releases
-        contains:
+        contains:   
             - org.scalaquery -> *
 
 Now run:
@@ -56,21 +56,21 @@ h3. 3. Create an SQL evolution Script to initialize your database
 Create the **db/evolutions** directory structure in your application if it doesn't already exist, and add a first evolution script **1.sql**:
 
 bc. # Users schema
-
+ 
 # --- !Ups
-
+ 
 CREATE TABLE MEMBERS (
     ID bigint(20) NOT NULL,
     NAME varchar(255) NOT NULL,
     EMAIL varchar(255),
     PRIMARY KEY (ID)
 );
-
+ 
 INSERT INTO members VALUES (1, 'Guillaume', 'gbo@zenexity.com');
 INSERT INTO members VALUES (2, 'Sadek', NULL);
-
+ 
 # --- !Downs
-
+ 
 DROP TABLE MEMBERS;
 
 This first script will be automatically applied since your database is empty and you run an in-memory database. Check this log:
@@ -86,47 +86,47 @@ h3. Use ScalaQuery in your code
 Now let's write a simple action method that queries all the **Members** registered in our database:
 
 bc. import play.mvc._
-
+ 
 import org.scalaquery.session._
 import org.scalaquery.session.Database.threadLocalSession
 import org.scalaquery.ql.basic.BasicDriver.Implicit._
 import org.scalaquery.ql.basic.{BasicTable => Table}
 import org.scalaquery.ql.TypeMapper._
 import org.scalaquery.ql._
-
+ 
 package models {
-
+ 
     object Members extends Table[(Int, String, Option[String])]("MEMBERS") {
         def id = column[Int]("ID")
         def name = column[String]("NAME")
         def email = column[Option[String]]("EMAIL")
         def * = id ~ name ~ email
-
+        
         def all = (for(m <- Members) yield m.name ~ m.email).list
     }
-
+ 
 }
-
+ 
 package controllers {
-
-    object Application extends Controller {
-
+  
+    object Application extends Controller { 
+ 
         val db = Database.forDataSource(play.db.DB.datasource)
-
-        def index = {
-
+        
+        def index = {     
+            
             db withSession {
-
+                
                 import models._
-
+            
                 Template('members -> Members.all)
-
+            
             }
-
+    
         }
-
+ 
     }
-
+ 
 }
 
 

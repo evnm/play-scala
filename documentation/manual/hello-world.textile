@@ -4,15 +4,15 @@ A very simple tutorial, that will just help you to discover Play Scala with the 
 
 h2. <a>Prerequisites</a>
 
-First of all, make sure that you have a working Play installation, with the Scala module correctly enabled.
+First of all, make sure that you have a working Play installation, with the Scala module correctly enabled. 
 
 As we will use the command line a lot, it's better to use a Unix-like OS. If you run a Windows system, it will also work fine; you'll just have to type a few commands in the command prompt.
 
-You will of course need a text editor. As in Java, Play Scala manages the compilation and the deployment process itself.
+You will of course need a text editor. As in Java, Play Scala manages the compilation and the deployment process itself. 
 
 h2. <a>Project creation</a>
 
-Now that Play is correctly installed, it's time to create the hello world application. Creating a Play application is pretty easy and fully managed by the Play command line utility. That allows for standard project layouts between all Play applications.
+Now that Play is correctly installed, it's time to create the hello world application. Creating a Play application is pretty easy and fully managed by the Play command line utility. That allows for standard project layouts between all Play applications. 
 
 Open a new command line and type:
 
@@ -21,11 +21,11 @@ bc. $ play new helloworld --with scala
 It will prompt you for the application full name. Type **Hello world**.
 
 bc. $ play new helloworld --with scala
-~        _            _
+~        _            _ 
 ~  _ __ | | __ _ _  _| |
 ~ | '_ \| |/ _' | || |_|
 ~ |  __/|_|\____|\__ (_)
-~ |_|            |__/
+~ |_|            |__/   
 ~
 ~ play! 1.2.2, http://www.playframework.org
 ~
@@ -59,7 +59,7 @@ The **play new** command creates a new directory **helloworld/** and populates i
 
 p(note). Because **Play uses UTF-8** as single encoding, it's very important that all text files hosted in these directories are encoded using this charset. Make sure to configure your text editor accordingly.
 
-Now if you're a seasoned Scala developer, you may wonder where all the .class files go. The answer is nowhere: Play doesn't use any class files but reads the Scala source files directly.
+Now if you're a seasoned Scala developer, you may wonder where all the .class files go. The answer is nowhere: Play doesn't use any class files but reads the Scala source files directly. 
 
 That allows two very important things in the development process. The first one is that Play will detect changes you make to any Scala source file and automatically reload them at runtime. The second is that when an error occurs, Play will create better error reports showing you the exact source code.
 
@@ -71,13 +71,13 @@ You can see the new application by opening a browser to "http://localhost:9000":
 
 !images/welcome!
 
-Let’s see how the new application can display this page.
+Let’s see how the new application can display this page. 
 
 The main entry point of your application is the **conf/routes** file. This file defines all of the application’s accessible URLs. If you open the generated routes file you will see this first ‘route’:
 
 bc. GET		/			Application.index
 
-That simply tells Play that when the web server receives a **GET** request for the **/** path, it must call the **Application.index** Scala method. In this case, **Application.index** is a shortcut for **controllers.Application.index**, because the controllers package is implicit.
+That simply tells Play that when the web server receives a **GET** request for the **/** path, it must call the **Application.index** Scala method. In this case, **Application.index** is a shortcut for **controllers.Application.index**, because the controllers package is implicit. 
 
 When you create standalone Scala applications you generally create a singleton object with a single entry point defined by a method such as:
 
@@ -92,40 +92,40 @@ A Play application has several entry points, one for each URL. We call these met
 Let’s see what the **controllers.Application** controller looks like. Open the **helloworld/app/controllers.scala** source file:
 
 bc. package controllers
-
+ 
 import play._
 import play.mvc._
-
+ 
 object Application extends Controller {
-
+    
     import views.Application._
-
+    
     def index = {
         html.index("Your new Scala application is ready!")
     }
-
+    
 }
 
 
 You can see that controller objects extend the **play.mvc.Controller** class. This class provides all useful methods for controllers. Also we have imported the @play.mvc._@ package that contain everything needed to write controllers.
 
-The index action is defined as a simple method of this object. This is how action methods are defined. They always return a value that is interpreted by the framework as the response value.
+The index action is defined as a simple method of this object. This is how action methods are defined. They always return a value that is interpreted by the framework as the response value.  
 
 The default index action is simple: it invokes the *views.Application.html.index* template and returns the generated HTML. Using a template is the most common way (but not the only one) to generate the HTTP response.
 
-Templates are special Scala source files that live in the **/app/views** directory.
+Templates are special Scala source files that live in the **/app/views** directory. 
 
 To see what the template looks like, open the **helloworld/app/views/Application/index.scala.html** file:
 
 bc. @(title:String)
-
+ 
 @main(title) {
-
+    
     @views.defaults.html.welcome(title)
-
+    
 }
 
-The template content seems pretty light. In fact, this is because it calls other templates to generate the welcome page.
+The template content seems pretty light. In fact, this is because it calls other templates to generate the welcome page. 
 
 The first line defines the template parameters: a template is a function that generates a *play.template.Html* return value. In this case, the template has a single @title@ parameter of type @String@, so the type of this template is @(String) => Html@.
 
@@ -134,7 +134,7 @@ Then this template calls another template called @main@, that takes two paramete
 Open the **helloworld/app/views/main.scala.html** file that defines the @main@ template:
 
 bc. @(title:String = "")(body: => Html)
-
+ 
 <!DOCTYPE html>
 <html>
   <head>
@@ -158,29 +158,29 @@ Edit the **helloworld/app/views/Application/index.scala.html** template:
 
 bc. @main(title = "Home") {
     <form action="@action(controllers.Application.sayHello)" method="GET">
-        <input type="text" name="myName" />
+        <input type="text" name="myName" /> 
         <input type="submit" value="Say hello!" />
     </form>
 }
 
 p(note). Note that we use GET as the form submission method, because the form submission does not have any side effect and is idempotent.
 
-We use the **@action(…)** helper to ask Play to automatically generate the URL able to invoke the **Application.sayHello** action.
+We use the **@action(…)** helper to ask Play to automatically generate the URL able to invoke the **Application.sayHello** action. 
 
 Also, let’s adapt our controller in the **helloworld/app/controllers.scala** file:
 
 bc. package controllers
-
+ 
 import play._
 import play.mvc._
-
+ 
 object Application extends Controller {
-
+    
     import views.Application._
-
-    def index = html.index()
+    
+    def index = html.index()  
     def sayHello = html.sayHello(params.get("myName"))
-
+    
 }
 
 In the @index@ action, we remove the parameter of the @html.index@ template as our new template doesn't need any parameter anymore. In the @sayHello@ action we retrieve the @myName@ parameter value coming from the form submission, and we pass it to the @html.sayHello@ template.
@@ -194,13 +194,13 @@ This is the way Play works! It will automatically compile your changes at each p
 The error is pretty clear. We haven't defined the @html.sayHello@ template. Let’s create it in the file **helloworld/app/views/Application/sayHello.scala.html**:
 
 bc. @(name:String)
-
+ 
 @main(title = "Hello") {
-
+    
     <h1>Hello @(name ?: "Guest")!</h1>
-
+    
     <a href="@action(controllers.Application.index)">Back to form</a>
-
+    
 }
 
 You can refresh the page.
@@ -268,16 +268,16 @@ The flash scope allows Play to keep messages during action redirection.
 Now you just have to display the **error** message if any. Edit the **helloworld/app/views/Application/index.html**:
 
 bc. @()(implicit flash:play.mvc.Scope.Flash)
-
+ 
 @if(flash.get("error")) {
     <p style="color:#c00">
         @flash.get("error")
     </p>
 }
-
+ 
 @main(title = "Home") {
     <form action="@action(controllers.Application.sayHello)" method="GET">
-        <input type="text" name="myName" />
+        <input type="text" name="myName" /> 
         <input type="submit" value="Say hello!" />
     </form>
 }
@@ -296,18 +296,18 @@ First, you need to run your application in **test mode**. Stop the application a
 
 bc. $ play test
 
-The **play test** command is almost the same as **play run**, except that it loads a test runner module that allows to run test suite directly from a browser.
+The **play test** command is almost the same as **play run**, except that it loads a test runner module that allows to run test suite directly from a browser. 
 
 Open a browser to the "http://localhost:9000/@tests":http://localhost:9000/@tests URL to see the test runner. Try to select all the default tests and run them; all should be green… But these default tests don’t really test anything.
 
 !images/guide1-test!
 
-A selenium test suite is typically written as an HTML file. The HTML syntax required by selenium is a little tedious (formatted using an HTML table element) to write. The good news is that Play will help you to generate it using the Play template engine and a set of tags that support a simplified syntax for selenium scenarios.
+A selenium test suite is typically written as an HTML file. The HTML syntax required by selenium is a little tedious (formatted using an HTML table element) to write. The good news is that Play will help you to generate it using the Play template engine and a set of tags that support a simplified syntax for selenium scenarios. 
 
 The default test suite of a newly created Play application already contains a selenium test. Open the **helloworld/test/Application.test.html** file:
 
 bc. *{ You can use plain selenium command using the selenium tag }*
-
+ 
 #{selenium}
     // Open the home page, and check that no error occurred
     open('/')
@@ -322,27 +322,27 @@ bc. #{selenium}
     // Open the home page, and check that no error occurred
     open('/')
     assertNotTitle('Application error')
-
+    
     // Check that it is the form
     assertTextPresent('The Hello world app.')
-
+    
     // Submit the form
     clickAndWait('css=input[type=submit]')
-
+    
     // Check the error
     assertTextPresent('Oops, please enter your name!')
-
+    
     // Type the name and submit
     type('css=input[type=text]', 'bob')
     clickAndWait('css=input[type=submit]')
-
+    
     // Check the result
     assertTextPresent('Hello bob!')
     assertTextPresent('The Hello world app.')
-
+    
     // Check the back link
     clickAndWait('link=Back to form')
-
+    
     // Home page?
     assertTextNotPresent('Hello bob!')
 #{/selenium}
@@ -354,6 +354,6 @@ We have fully tested the application. Just select this test in the test runner a
 
 h2. <a>Learn more</a>
 
-This was a very simple tutorial about a very dumb application.
+This was a very simple tutorial about a very dumb application. 
 
-If you want to learn more about Scala, you can use our interactive  %(next)"Play with Scala":learnscala% application.
+If you want to learn more about Scala, you can use our interactive  %(next)"Play with Scala":learnscala% application. 

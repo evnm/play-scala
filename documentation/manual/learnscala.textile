@@ -1,6 +1,6 @@
 h1. Learning Scala with Play
 
-Life’s too short to not learn Scala. The Play Scala module is the easiest way to learn it. Thanks to the interactive way Play will compile, execute and report errors on your Scala code, you can immediately start to experiment with Scala.
+Life’s too short to not learn Scala. The Play Scala module is the easiest way to learn it. Thanks to the interactive way Play will compile, execute and report errors on your Scala code, you can immediately start to experiment with Scala. 
 
 h2. <a>Play with Scala</a>
 
@@ -17,11 +17,11 @@ Then connect to "http://localhost:9000":http://localhost:9000 with your preferre
 Now open the **app/scrapbook.scala** file included in the application with any text editor:
 
 bc. package play_with_scala {
-
+ 
     class Scrapbook {
-        print("Howdy, open the app/scrapbook.scala file, and start to Play!")
+        print("Howdy, open the app/scrapbook.scala file, and start to Play!") 
     }
-
+ 
 }
 
 The @Scrapbook@ class body will be automatically executed each time you refresh the Web page. Every @print@ or @println@ statement result will be displayed right into the Web page.
@@ -29,25 +29,25 @@ The @Scrapbook@ class body will be automatically executed each time you refresh 
 For example, discard the dummy default @print@ statement, and replace it with something more interesting:
 
 bc. package play_with_scala {
-
+ 
     class Scrapbook {
         val numbers = 0 to 10
-
+        
         print(numbers)
-
+        
         val sum = numbers.reduceLeft( (a,b) => a + b )
-
+        
         print(sum)
-
+        
         val strings = numbers.map( a => "Number:" + a )
-
+        
         print(strings)
-
+        
         val odds = numbers.filter( _ % 2 == 0 )
-
+        
         print(odds)
     }
-
+ 
 }
 
 And refresh your brower:
@@ -57,22 +57,22 @@ And refresh your brower:
 You are not limited to code in the @Scrapbook@ class, you can of course define any class or function your want:
 
 bc. package play_with_scala {
-
+ 
     class Scrapbook {
         val users = List(
             User("guillame", "gbo@zenexity.com"),
             User("sadek", "sdr@zenexity.com")
         )
-
+                    
         val allEmails = (users:List[User]) => {
             for( user <- users ) yield user.email
         }
-
+                    
         print( allEmails(users) )
     }
-
+    
     case class User(name: String, email: String)
-
+ 
 }
 
 That will display:

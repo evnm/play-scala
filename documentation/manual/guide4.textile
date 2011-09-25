@@ -21,18 +21,18 @@ p(note). If we try to send an **id** HTTP parameter that is not a valid number, 
 This action will display the **/yabe/app/views/Application/show.scala.html** template:
 
 bc. @(post:(models.Post,models.User,Seq[models.Comment]))
-
+ 
 @main(title = post._1.title) {
-
+    
     @display(post, mode = "full")
-
+    
 }
 
 Because we’ve already written the **display** function, this page is really simple to write.
 
 h2. <a>Adding links to the details page</a>
 
-In the display tag we’ve left all links empty (using **#**). It’s now time to make these links point to the **Application.show** action. With Play you can easily build links in a template using the **action(…) helper**. It uses the router to ‘reverse’ the URL needed to call the specified action.
+In the display tag we’ve left all links empty (using **#**). It’s now time to make these links point to the **Application.show** action. With Play you can easily build links in a template using the **action(…) helper**. It uses the router to ‘reverse’ the URL needed to call the specified action. 
 
 Let’s edit the **/yabe/app/views/tags/display.scala.html** tag:
 
@@ -60,7 +60,7 @@ bc. ...
     </h1>
     <h2>@play.Play.configuration.get("blog.baseline")</h2>
 </div>
-...
+... 
 
 We can now navigate between the home page and the post detail pages.
 
@@ -78,7 +78,7 @@ We can have a better URL by specifying a custom path for the **Application.show*
 
 bc. GET     /posts/{id}                             Application.show
 
-p(note). This way the **id** parameter will be extracted from the URL path.
+p(note). This way the **id** parameter will be extracted from the URL path. 
 
 Refresh the browser and check that it now uses the correct URL.
 
@@ -89,15 +89,15 @@ To allow users to navigate easily through posts, we will add a pagination mechan
 Here is the SQL query we will use to fetch both previous and next post from a particular element:
 
 bc. (
-    select *, 'next' as pos from post
+    select *, 'next' as pos from post 
     where postedAt < {date} order by postedAt desc limit 1
 )
     union
 (
-    select *, 'prev' as pos from post
+    select *, 'prev' as pos from post 
     where postedAt > {date} order by postedAt asc limit 1
 )
-
+ 
 order by postedAt desc
 
 And we will translate the result as a @(Option[Post], Option[Post])@ value, where the first element of the tuple is the previous post, and the second element is the next post:
@@ -106,24 +106,24 @@ bc. opt('pos.is("prev") ~> Post.on("")) ~ opt('pos.is("next") ~> Post.on(""))
 
 Here is the new @prevNext@ method we need to add to the @Post@ class:
 
-bc. def prevNext = {
+bc. def prevNext = {        
     SQL(
         """
             (
-                select *, 'next' as pos from post
+                select *, 'next' as pos from post 
                 where postedAt < {date} order by postedAt desc limit 1
             )
                 union
             (
-                select *, 'prev' as pos from post
+                select *, 'prev' as pos from post 
                 where postedAt > {date} order by postedAt asc limit 1
             )
-
+ 
             order by postedAt desc
-
+            
         """
-    ).on("date" -> postedAt).as(
-        opt('pos.is("prev")~>Post.on("")) ~ opt('pos.is("next")~>Post.on(""))
+    ).on("date" -> postedAt).as( 
+        opt('pos.is("prev")~>Post.on("")) ~ opt('pos.is("next")~>Post.on("")) 
         ^^ flatten
     )
 }
@@ -144,9 +144,9 @@ bc. @(
     post:(models.Post,models.User,Seq[models.Comment]),
     pagination:(Option[models.Post],Option[models.Post])
 )
-
+ 
 @main(title = post._1.title) {
-
+    
     <ul id="pagination">
         @pagination._1.map { post =>
             <li id="previous">
@@ -163,9 +163,9 @@ bc. @(
             </li>
         }
     </ul>
-
+    
     @display(post, mode = "full")
-
+    
 }
 
 It’s better now.
@@ -188,7 +188,7 @@ Please note also that we use the @create@ method, and not the @insert@. The @Com
 Let’s write the HTML form in the **show.scala.html** template (after the **@display** tag in fact):
 
 bc. <h3>Post a comment</h3>
-
+ 
 @form(controllers.Application.postComment(post._1.id())) {
     <p>
         <label for="author">Your name: </label>
@@ -229,15 +229,15 @@ p(note). **Don’t forget** to import **play.data.validation._** as well.
 As you can see, in case of validation errors, we re-display the post detail page. We have to modify the form code to display the error message:
 
 bc. <h3>Post a comment</h3>
-
+ 
 @form(controllers.Application.postComment(post._1.id())) {
-
+    
     @if(errors) {
         <p class="error">
             All fields are required!
         </p>
     }
-
+    
     <p>
         <label for="author">Your name: </label>
         <input type="text" name="author" value="@params.get("author")">
@@ -257,12 +257,12 @@ bc. @(
     post:(models.Post,models.User,Seq[models.Comment]),
     pagination:(Option[models.Post],Option[models.Post])
 )(
-    implicit
+    implicit 
     params:play.mvc.Scope.Params,
     flash:play.mvc.Scope.Flash,
     errors:Map[String,play.data.validation.Error]
 )
-
+ 
 …
 
 To make the UI feedback more pleasant for the poster, we will add a little JavaScript to automatically set focus on the comment form in case of an error. As this script uses "JQuery Tools Expose":files/jquery.tools.min.js as support libraries, you have to include them. Download these two libraries to the **yabe/public/javascripts/** directory and modify the **main.scala.html** template to include them:
@@ -275,15 +275,15 @@ bc. …
 Now you can add this script to the **show.scala.html** template (add it at the end of the page):
 
 bc. <script type="text/javascript" charset="utf-8">
-    $(function() {
-        // Expose the form
-        $('form').click(function() {
-            $('form').expose({api: true}).load();
-        });
-
+    $(function() {         
+        // Expose the form 
+        $('form').click(function() { 
+            $('form').expose({api: true}).load(); 
+        }); 
+        
         // If there is an error, focus to form
         if($('form .error').size()) {
-            $('form').expose({api: true, loadSpeed: 0}).load();
+            $('form').expose({api: true, loadSpeed: 0}).load(); 
             $('form input[type=text]').get(0).focus();
         }
     });
@@ -327,5 +327,5 @@ bc. POST    /posts/{postId}/comments                Application.postComment
 
 That’s done.
 
-p(note). Next: %(next)"Setting up a Captcha":guide5%.
+p(note). Next: %(next)"Setting up a Captcha":guide5%. 
 

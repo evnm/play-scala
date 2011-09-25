@@ -4,8 +4,8 @@ h2. Prerequisites
 
 Before installing the Play Scala module, be sure to have a working installation of Play framework. Play Scala require *Play 1.2.2*.
 
-p(note). You don't need to already have Scala installed on your computer. The Play Scala module comes with all required libraries and with the Scala compiler.
-
+p(note). You don't need to already have Scala installed on your computer. The Play Scala module comes with all required libraries and with the Scala compiler. 
+ 
 The included Scala version is **2.8.1**.
 
 h2. Installing the Scala module locally
@@ -13,11 +13,11 @@ h2. Installing the Scala module locally
 The simplest way to work with Play and Scala is to download and install the Scala module locally. You can use the @play install scala@ command to do that:
 
 bc. $ play install scala
-~        _            _
+~        _            _ 
 ~  _ __ | | __ _ _  _| |
 ~ | '_ \| |/ _' | || |_|
 ~ |  __/|_|\____|\__ (_)
-~ |_|            |__/
+~ |_|            |__/   
 ~
 ~ play! 1.2.2, http://www.playframework.org
 ~
@@ -27,7 +27,7 @@ bc. $ play install scala
 ~ Installing module scala-0.9...
 ~
 ~ Fetching http://www.playframework.org/modules/scala-0.9.1.zip
-~ [--------------------------100%-------------------------] 17313.2 KiB/s
+~ [--------------------------100%-------------------------] 17313.2 KiB/s   
 ~ Unzipping...
 ~
 ~ Module scala-0.9.1 is installed!
@@ -39,16 +39,16 @@ Now that you have the Scala module installed locally, you can ask Play to create
 p(note). The **--with** option of the **play new** command allows you to automatically configure a set of locally installed modules during application creation.
 
 bc. $ play new myScalaApp --with scala
-~        _            _
+~        _            _ 
 ~  _ __ | | __ _ _  _| |
 ~ | '_ \| |/ _' | || |_|
 ~ |  __/|_|\____|\__ (_)
-~ |_|            |__/
+~ |_|            |__/   
 ~
 ~ play! 1.2.2, http://www.playframework.org
 ~
 ~ The new application will be created in ~/myScalaApp
-~ What is the application name? [myScalaApp]
+~ What is the application name? [myScalaApp] 
 ~
 ~ Resolving dependencies using ~/myScalaApp/conf/dependencies.yml,
 ~
@@ -66,7 +66,7 @@ bc. $ play new myScalaApp --with scala
 As you see, the **conf/dependencies.yml** dependencies configuration file is automatically configured with the Scala dependency:
 
 bc. # Application dependencies
-
+ 
 require:
     - play
     - play -> scala 0.9.1
@@ -76,16 +76,16 @@ h2. Starting a Scala application
 As for any other Play application, you simply start your newly created application by typing @play run@:
 
 bc. $ play run myScalaApp
-~        _            _
+~        _            _ 
 ~  _ __ | | __ _ _  _| |
 ~ | '_ \| |/ _' | || |_|
 ~ |  __/|_|\____|\__ (_)
-~ |_|            |__/
+~ |_|            |__/   
 ~
 ~ play! 1.2.2, http://www.playframework.org
 ~
 ~ Ctrl+C to stop
-~
+~ 
 Listening for transport dt_socket at address: 8000
 21:26:14,344 INFO  ~ Starting ~/myScalaApp
 21:26:14,351 INFO  ~ Module scala is available (~/play/1.2/modules/scala-0.9)

@@ -6,13 +6,13 @@ h2. <a>Generating the captcha image</a>
 
 We’ll start to see how we can easily generate a captcha image using Play. Basically we will just use another action, except that it will return a binary stream instead of the HTML responses like we’ve returned so far.
 
-Since Play is a **full-stack** web framework, we try to include built-in constructs for web applications’ most typical needs; generating a captcha is one of them. We can use the **play.libs.Images** utility to simply generate a captcha image, and then write it to the HTTP response.
+Since Play is a **full-stack** web framework, we try to include built-in constructs for web applications’ most typical needs; generating a captcha is one of them. We can use the **play.libs.Images** utility to simply generate a captcha image, and then write it to the HTTP response. 
 
 As usual, we will start with a simple implementation. Add the **captcha** action to the **Application** controller:
 
 bc. def captcha = Images.captcha
 
-Note that we can return the captcha object directly because the Images.Captcha class implements @java.io.InputStream@.
+Note that we can return the captcha object directly because the Images.Captcha class implements @java.io.InputStream@. 
 
 p(note). **Don’t forget** to import **play.libs._**.
 
@@ -28,7 +28,7 @@ It should generate a random text for each refresh.
 
 h2. <a>How do we manage the state?</a>
 
-Until now it was easy, but the most complicated part is coming. To validate the captcha we need to save the random text written to the captcha image somewhere and then check it at the form submission time.
+Until now it was easy, but the most complicated part is coming. To validate the captcha we need to save the random text written to the captcha image somewhere and then check it at the form submission time. 
 
 Of course we could just put the text to the user session at the image generation time and then retrieve it later. But this solution has two drawbacks:
 
@@ -115,10 +115,10 @@ bc. def postComment(postId:Long) = {
     val randomID = params.get("randomID")
     Validation.required("author", author).message("Author is required")
     Validation.required("content", content).message("Content is required")
-
+    
     println(code)
     println(Cache.get(randomID).orNull)
-
+    
     Validation.equals("code", code, "code", Cache.get(randomID).orNull).
         message("Invalid code. Please type it again")
     if(Validation.hasErrors) {
@@ -133,7 +133,7 @@ bc. def postComment(postId:Long) = {
 
 Because we now have more error messages, modify the way we display errors in the **show.scala.html** template (yes we will just display the first error, it’s good enough):
 
-bc. ..
+bc. .. 
 @if(errors) {
     <p class="error">
         @errors.head._2
