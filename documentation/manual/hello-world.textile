@@ -1,6 +1,6 @@
 h1. Your first Play Scala application
 
-A very simple tutorial, that will just help you to discover Play Scala with the famous 'Hello World' example.
+A very simple tutorial, that will help you to discover Play Scala with the famous 'Hello World' example.
 
 h2. <a>Prerequisites</a>
 
@@ -18,7 +18,7 @@ Open a new command line and type:
 
 bc. $ play new helloworld --with scala
 
-It will prompt you for the application full name. Type **Hello world**.
+It will prompt you for the full application name. Type **Hello world**.
 
 bc. $ play new helloworld --with scala
 ~        _            _ 
@@ -71,7 +71,7 @@ You can see the new application by opening a browser to "http://localhost:9000":
 
 !images/welcome!
 
-Let’s see how the new application can display this page. 
+Let’s see how the new application displays this page. 
 
 The main entry point of your application is the **conf/routes** file. This file defines all of the application’s accessible URLs. If you open the generated routes file you will see this first ‘route’:
 
@@ -107,7 +107,7 @@ object Application extends Controller {
 }
 
 
-You can see that controller objects extend the **play.mvc.Controller** class. This class provides all useful methods for controllers. Also we have imported the @play.mvc._@ package that contain everything needed to write controllers.
+You can see that controller objects extend the **play.mvc.Controller** class. This class provides all useful methods for controllers. Also we have imported the @play.mvc._@ package that contains everything needed to write controllers.
 
 The index action is defined as a simple method of this object. This is how action methods are defined. They always return a value that is interpreted by the framework as the response value.  
 
@@ -183,7 +183,7 @@ object Application extends Controller {
     
 }
 
-In the @index@ action, we remove the parameter of the @html.index@ template as our new template doesn't need any parameter anymore. In the @sayHello@ action we retrieve the @myName@ parameter value coming from the form submission, and we pass it to the @html.sayHello@ template.
+In the @index@ action, we update the call to @html.index@ to pass no arguments, since a title is assigned by default. In the @sayHello@ action we retrieve the @myName@ parameter value coming from the form submission, and we pass it to the @html.sayHello@ template.
 
 Now try to refresh the page in the browser, and oops, you will get an error:
 
@@ -259,7 +259,7 @@ def sayHello = {
 }
 ...
 
-Now our **sayHello** can return 2 distinct values. A @Html@ value is returned in the case where there is a name provided by the form, and an @Action@ value is returned if there is an error. An @Action@ value is used to redirect to another existing action method. Here we specify that we want to redirect to the @index@ action.
+Now our **sayHello** can return 2 distinct values. An @Html@ value is returned in the case where there is a name provided by the form, and an @Action@ value is returned if there is an error. An @Action@ value is used to redirect to another existing action method. Here we specify that we want to redirect to the @index@ action.
 
 Play will automatically check that the myName field is filled or will add an error object to the **errors** scope. Then if there is any error, we add a message to the **flash** scope and redirect to the **index** action.
 
@@ -314,7 +314,7 @@ bc. *{ You can use plain selenium command using the selenium tag }*
     assertNotTitle('Application error')
 #{/selenium}
 
-This test should run without any problem with the application for now. It just open the home page and check that the page content does not contain the ‘Application error’ text.
+This test should run without any problem with the application for now. It just opens the home page and checks that the page content does not contain the ‘Application error’ text.
 
 Let’s write a test for our application. Edit the test content:
 
@@ -347,7 +347,7 @@ bc. #{selenium}
     assertTextNotPresent('Hello bob!')
 #{/selenium}
 
-We have fully tested the application. Just select this test in the test runner and click ‘Start’. Everything should be green!
+We have now fully tested the application. Just select this test in the test runner and click ‘Start’. Everything should be green!
 
 !images/guide1-test2!
 
