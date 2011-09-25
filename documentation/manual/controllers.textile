@@ -9,21 +9,21 @@ A Controller is a Scala singleton object, hosted by the @controllers@ package, a
 This is a classical controller definition:
 
 bc. package controllers {
-    
+
     import play._
     import play.mvc._
-    
+
     object Users extends Controller {
-        
+
         def show(id:Long) = Template("user" -> User.findById(id))
-        
+
         def edit(id:Long, email:String) = {
             User.changeEmail(id, email)
             Action(show(id))
         }
-        
+
     }
-    
+
 }
 
 Because Scala provides the native notion of **Singleton objects** we don't need to deal with Java static methods while keeping the ability to reference statically an action like @show(id)@.
@@ -32,7 +32,7 @@ h2. Action methods return values
 
 A Play controller in Java usually uses imperative orders like @render(…)@ or @forbidden()@ to trigger response generation. However, action methods written in Scala are seen as functions and must return a value. This value will be used by the framework to generate the HTTP response.
 
-An action method can of course return several kinds of values depending on the request (like for example a @Template@ or an @Forbidden@ value). 
+An action method can of course return several kinds of values depending on the request (like for example a @Template@ or an @Forbidden@ value).
 
 Listed below are the typical return types:
 
@@ -258,7 +258,7 @@ For example the following **Secure** trait adds a security interceptor to any co
 
 bc. trait Secure {
     self:Controller =>
-    
+
     @Before checkSecurity = {
         session("username") match {
             case Some(username) => renderArgs += "user" -> User(username)
@@ -266,9 +266,9 @@ bc. trait Secure {
             case None => Action(Authentication.login)
         }
     }
-    
+
     def connectedUser = renderArgs("user").get
-    
+
 }
 
 p(note). Note that here we use the @self:Controller =>@ notation to indicate that this Trait can only be mixed with a @Controller@ type.
@@ -276,9 +276,9 @@ p(note). Note that here we use the @self:Controller =>@ notation to indicate tha
 And you can use it to create a secured controller:
 
 bc. object Application extends Controller with Secure {
-    
+
     def index = <h1>Hello {connectedUser.name}!</h1>
-    
+
 }
 
 <hr>

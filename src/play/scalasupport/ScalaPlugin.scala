@@ -147,7 +147,7 @@ class ScalaPlugin extends PlayPlugin {
             Play.classes.remove(c.name)
         }
 
-        // Add new classes 
+        // Add new classes
         added.foreach { c =>
             val appClass = new ApplicationClass
             appClass.name = c.name
@@ -165,20 +165,20 @@ class ScalaPlugin extends PlayPlugin {
     // ----- Compiler interface
 
     val compiler = new PlayScalaCompiler(
-        Play.applicationPath, 
-        new File(Play.modules("scala").getRealFile, "lib"), 
-        System.getProperty("java.class.path").split(System.getProperty("path.separator")).map(new File(_)).toList, 
+        Play.applicationPath,
+        new File(Play.modules("scala").getRealFile, "lib"),
+        System.getProperty("java.class.path").split(System.getProperty("path.separator")).map(new File(_)).toList,
         Play.tmpDir
     )
 
     def sources:Map[File,Long] = {
         import play.vfs.VirtualFile
-        currentSources.empty ++ (for(p <- (Play.javaPath ++ Seq(VirtualFile.open(ScalaTemplateCompiler.generatedDirectory)))) 
+        currentSources.empty ++ (for(p <- (Play.javaPath ++ Seq(VirtualFile.open(ScalaTemplateCompiler.generatedDirectory))))
             yield PlayScalaCompiler.scanFiles(p.getRealFile)).flatten.map(f => (f,f.lastModified))
     }
 
     def templates:Seq[File] = {
-        (for(p <- Play.javaPath) 
+        (for(p <- Play.javaPath)
             yield PlayScalaCompiler.scanFiles(p.getRealFile, """^[^.].*[.]scala[.](html|txt)$""".r)).flatten
     }
 

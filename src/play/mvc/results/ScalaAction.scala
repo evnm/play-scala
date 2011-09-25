@@ -14,7 +14,7 @@ class ScalaAction(action: => Any) extends Result {
         throw new play.exceptions.NoRouteFoundException(action.toString(), null)
     }
 
-    val delegate = new Redirect(actionDefinition.url) 
+    val delegate = new Redirect(actionDefinition.url)
 
     def apply(request: Http.Request , response:Http.Response) {
         delegate.apply(request, response)

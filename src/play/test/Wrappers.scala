@@ -38,7 +38,7 @@ trait Browser {
 object Browser extends Browser
 
 /**
- * wraps around FunctionalTest's JUnit asserts 
+ * wraps around FunctionalTest's JUnit asserts
  */
 trait Assertions {
 
@@ -51,7 +51,7 @@ trait Assertions {
     def assertStatus(status: Int, response: Response) = F.assertStatus(status,response)
     def assertIsNotFound(response: Response) = F.assertIsNotFound(response)
     def assertIsOk(response: Response) = F.assertIsOk(response)
-  
+
 }
 
 object Assertions extends Assertions

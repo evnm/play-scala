@@ -11,7 +11,7 @@ case class Template(template: Option[String] = None, args: Map[String,Any] = Map
     }
 
     def apply(request: Http.Request , response:Http.Response) {
-        delegate.apply(request, response) 
+        delegate.apply(request, response)
     }
 
 }

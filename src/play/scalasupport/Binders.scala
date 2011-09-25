@@ -18,7 +18,7 @@ class PkBinder extends TypeBinder[Pk[_]] {
                 value match {
                     case null => NotAssigned
                     case v if v.trim() == "" => NotAssigned
-                    case v => 
+                    case v =>
                         try {
                             val parameterClass = genericType.asInstanceOf[ParameterizedType].getActualTypeArguments()(0)
                             val result = Binder.directBind(name, annotations, value, parameterClass.asInstanceOf[Class[_]])

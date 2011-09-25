@@ -9,13 +9,13 @@ private [jpa] object CascadeTypeWrapper {
     final val MERGE = javax.persistence.CascadeType.MERGE
     final val PERSIST = javax.persistence.CascadeType.PERSIST
     final val REFRESH = javax.persistence.CascadeType.REFRESH
-    final val REMOVE  = javax.persistence.CascadeType.REMOVE 
+    final val REMOVE  = javax.persistence.CascadeType.REMOVE
 }
 
 
 private [jpa] object LockModeTypeWrapper {
     final val READ = javax.persistence.LockModeType.READ
-    final val WRITE = javax.persistence.LockModeType.WRITE 
+    final val WRITE = javax.persistence.LockModeType.WRITE
     final val OPTIMISTIC = javax.persistence.LockModeType.OPTIMISTIC
     final val OPTIMISTIC_FORCE_INCREMENT = javax.persistence.LockModeType.OPTIMISTIC_FORCE_INCREMENT
     final val PESSIMISTIC_READ = javax.persistence.LockModeType.PESSIMISTIC_READ
@@ -30,12 +30,12 @@ private[jpa] object FetchTypeWrapper {
 }
 
 trait Annotations {
-    
+
     // enums
     val CascadeType = CascadeTypeWrapper
     val LockModeType = LockModeTypeWrapper
     val FetchType = FetchTypeWrapper
-    
+
     // classes
     type Table = javax.persistence.Table
     type Entity = javax.persistence.Entity
@@ -80,7 +80,7 @@ trait Annotations {
     type  Transient = javax.persistence.Transient  @field
     type  UniqueConstraint = javax.persistence.UniqueConstraint  @field
     type  Version = javax.persistence.Version  @field
-    
+
 }
 
 object Annotations extends Annotations

@@ -23,7 +23,7 @@ html
 	font: 13px "Helvetica";
 }
 
-@font-face 
+@font-face
 {
     font-family: 'Qlassik Bold';
     src: url(qlassik_tb_d7b9.otf);
@@ -100,7 +100,7 @@ nav a
 	background: -moz-linear-gradient(-90deg, #9c037c, #62034b);
 	-webkit-box-shadow: #d03eb1 0 -1px 1px, rgba(0,0,0,0.5) 0 1px 1px, rgba(0,0,0,0.2) 0 3px 3px;
 	-moz-box-shadow: #d03eb1 0 -1px 1px, rgba(0,0,0,0.5) 0 1px 1px, rgba(0,0,0,0.2) 0 3px 3px;
-	
+
 	color: #ed76d4;
 	font-family: "Qlassik Bold";
 	font-size: 18px;
@@ -129,7 +129,7 @@ nav a.selected
 /* ----------------------------------------------
  * CONTENT
  * ------------------------------------------- */
-#time 
+#time
 {
     color: rgba(255,255,255,.6);
     text-align: center;
@@ -147,7 +147,7 @@ nav a.selected
 /* ----------------------------------------------
  * LIST
  * ------------------------------------------- */
-table#list 
+table#list
 {
 	width: 100%;
 	table-layout: fixed;
@@ -155,7 +155,7 @@ table#list
 	font-family: "Qlassik Bold";
 	text-align: left;
 	font-size: 15px;
-	
+
 	border: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -251,7 +251,7 @@ table#list
 	width: 200px;
 }
 
-#list td.editing 
+#list td.editing
 {
     padding: 0px 5px;
 }
@@ -271,7 +271,7 @@ table#list
     width: 80px;
 }
 
-#list th.action 
+#list th.action
 {
     width: 55px;
 }
@@ -280,13 +280,13 @@ table#list
  * ADD
  * ------------------------------------------- */
 
-form 
+form
 {
     margin: 10px 0;
     font-family: "Qlassik Bold";
 }
 
-form label 
+form label
 {
     display: block;
     font-size: 16px;
@@ -302,7 +302,7 @@ form p.field
     padding: 5px;
     border-top: 1px solid rgba(255,255,255,0.1);
 	border-bottom: 1px solid rgba(0,0,0,0.1);
-} 
+}
 
 form p.field:nth-child(even)
 {
@@ -314,7 +314,7 @@ form p.field:nth-child(odd)
 	background: rgba(255,255,255,0.05);
 }
 
-form p.buttons 
+form p.buttons
 {
     padding: 20px 0;
     color: rgba(255,255,255,.6);
@@ -341,7 +341,7 @@ form p.buttons input {
 	background: -moz-linear-gradient(-90deg, #9c037c, #62034b);
 	-webkit-box-shadow: #d03eb1 0 -1px 1px, rgba(0,0,0,0.5) 0 1px 1px, rgba(0,0,0,0.2) 0 3px 3px;
 	-moz-box-shadow: #d03eb1 0 -1px 1px, rgba(0,0,0,0.5) 0 1px 1px, rgba(0,0,0,0.2) 0 3px 3px;
-	
+
 	color: #ed76d4;
 	font-family: "Qlassik Bold";
 	font-size: 18px;
@@ -349,23 +349,23 @@ form p.buttons input {
 	text-decoration: none;
 }
 
-form p.buttons input:hover 
+form p.buttons input:hover
 {
 	color: #fff;
 	-webkit-box-shadow: #d03eb1 0 -1px 1px, rgba(0,0,0,0.5) 0 1px 1px, rgba(0,0,0,0.3) 0 5px 4px;
-	-moz-box-shadow: #d03eb1 0 -1px 1px, rgba(0,0,0,0.5) 0 1px 1px, rgba(0,0,0,0.3) 0 5px 4px; 
+	-moz-box-shadow: #d03eb1 0 -1px 1px, rgba(0,0,0,0.5) 0 1px 1px, rgba(0,0,0,0.3) 0 5px 4px;
 	background: -moz-linear-gradient(-90deg, #9c037c, #62034b);
 }
 
-form p.buttons input:active 
+form p.buttons input:active
 {
 	position: relative;
 	top: 1px;
 }
 
-form p input 
+form p input
 {
-    font-family: "Qlassik Bold"; 
+    font-family: "Qlassik Bold";
     font-size: 16px;
     border: none;
     padding: 2px 4px;
@@ -377,22 +377,22 @@ form p input
     -moz-box-shadow: rgba(0,0,0,0.5) 0 1px 1px;
 }
 
-form p input:focus 
+form p input:focus
 {
     background: rgba(255, 255, 255, .8);
 }
 
-form #birthdate 
+form #birthdate
 {
     width: 100px;
 }
 
-form #email 
+form #email
 {
     width: 300px;
 }
 
-form .error 
+form .error
 {
     display: block;
     color: pink;
@@ -433,8 +433,8 @@ footer a:hover
 /* ----------------------------------------------
  * FIXES
  * ------------------------------------------- */
-[draggable=true] 
+[draggable=true]
 {
    -khtml-user-drag: element;
 }
- 
+

@@ -17,7 +17,7 @@ class RenderMethodsTest extends FunctionalTestCase with Matchers{
 
     @Test
     def testSecondRenderJSON {
-        var response = GET("/application/json2") 
+        var response = GET("/application/json2")
         assertIsOk(response)
         assertContentType("application/json", response)
         assertCharset("utf-8", response)
@@ -49,14 +49,14 @@ class RenderMethodsTest extends FunctionalTestCase with Matchers{
     }
 
     @Test
-    def testActionChainging{ 
+    def testActionChainging{
       val response = GET("/Application/goJojo")
       assertStatus(302, response)
     }
 
     @Test
     def testRenderHtml{
-      val response = GET("/Application/helloWorld") 
+      val response = GET("/Application/helloWorld")
       response contentTypeShouldBe ("text/html")
       response shouldBeOk()
       response contentShouldBe ("<h1>Hello world</h1>")
@@ -78,7 +78,7 @@ class RenderMethodsTest extends FunctionalTestCase with Matchers{
       response contentShouldBe ("boo")
     }
 
-    @Test 
+    @Test
     def testUrlCaller{
       val response = GET("/Application/urlcall")
       response contentTypeShouldBe ("text/html")

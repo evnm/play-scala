@@ -155,7 +155,7 @@ class SqlTests extends UnitTestCase with ShouldMatchersForJUnit {
     }
 
     SQL("select * from Task ").as(BBB) should be (BBB("1","some comment"))
-    SQL("select * from Task ").as(TT2) should be (("1","some comment")) 
+    SQL("select * from Task ").as(TT2) should be (("1","some comment"))
   }
 
 

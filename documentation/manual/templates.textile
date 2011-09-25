@@ -12,34 +12,34 @@ Play Scala comes with a new and really powerful Scala based template engine. The
 
 h2. Overview
 
-A Play Scala template is a simple text file text file, that contains small blocks of Scala code. It can generate any text-based format (HTML, XML, CSV, etc.). 
+A Play Scala template is a simple text file text file, that contains small blocks of Scala code. It can generate any text-based format (HTML, XML, CSV, etc.).
 
 They're particularly designed to feel comfortable to those used to working with HTML, allowing Web designers to work with them.
 
-They are compiled as standard Scala functions, following a simple naming convention: 
+They are compiled as standard Scala functions, following a simple naming convention:
 
 bq. If you create a *views/Application/index.scala.html* template file, Play will generate a @views.Application.html.index@ function.
 
 Here is for example, a classic template content:
 
 bc. @(customer:models.Customer, orders:Seq[models.Order])
- 
+
 <h1>Welcome @customer.name!</h1>
- 
+
 @if(orders) {
-     
+
     <h2>Here is a list of your current orders:</h2>
-     
+
     <ul>
     @orders.map { order =>
         <li>@order.title</li>
     }
     </ul>
-     
+
 } else {
-     
+
     <h2>You don't have any order yet...</h2>
-     
+
 }
 
 
@@ -60,7 +60,7 @@ bc. Hello @customer.name!
 Because the template engine will automatically detect the end of your code block by analysing your code, it only allows for simple statements. If you want to insert a multi-token statement, just make it more explicit using brackets:
 
 bc. Hello @(customer.firstName + customer.lastName)!
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
                     Scala Code
 
 You can also use curly brackets, like in plain Scala code, to write a multi-statements block:
@@ -98,7 +98,7 @@ You can use the Scala @for comprehension@, in a pretty standard way. Just note t
 bc. <ul>
 @for(p <- products) {
     <li>@p.name ($@p.price)</li>
-} 
+}
 </ul>
 
 But as you probably know, here the @for comprehension@ is just syntactic sugar for a classic map:
@@ -106,7 +106,7 @@ But as you probably know, here the @for comprehension@ is just syntactic sugar f
 bc. <ul>
 @products.map { p =>
     <li>@p.name ($@p.price)</li>
-} 
+}
 </ul>
 
 h2. If-Blocks
@@ -124,15 +124,15 @@ h2. Pattern matching
 You can also use pattern matching in templates:
 
 bc. @connected match {
-    
+
     case Admin(name) => {
         <span class="admin">Connected as admin (@name)</span>
     }
-    
+
     case User(name) => {
         <span>Connected as @name</span>
     }
-    
+
 }
 
 
@@ -143,11 +143,11 @@ You can create reusable code blocks (or sub template):
 bc. @display(product:models.Product) = {
     @product.name ($@product.price)
 }
- 
+
 <ul>
 @products.map { p =>
     @display(product = p)
-} 
+}
 </ul>
 
 Note that you can also declare reusable pure Scala blocks:
@@ -155,7 +155,7 @@ Note that you can also declare reusable pure Scala blocks:
 bc. @title(text:String) = @{
     text.split(' ').map(_.capitalize).mkString(" ")
 }
- 
+
 <h1>@title("hello world")</h1>
 
 h2. Import statements
@@ -163,9 +163,9 @@ h2. Import statements
 You can import whatever you want at the beginning of your template (or of a sub template):
 
 bc. @(customer:models.Customer, orders:Seq[models.Order])
- 
+
 @import utils._
- 
+
 …
 
 h2. Composing templates (tags, layouts, includes, etc.)
@@ -177,17 +177,17 @@ h3. Layout
 Let's declare a *views/main.scala.html* template that will act as main layout:
 
 bc. @(title:String)(content: => Html)
- 
+
 <h1>@title</h1>
- 
+
 <hr>
- 
+
 <div id="main">
     @content
 </div>
- 
+
 <hr>
- 
+
 <div id="footer">
     ...
 </div>
@@ -197,9 +197,9 @@ As you see this template takes 2 parameters: a title and an HTML block.
 Now we can use it from another *views/Application/index.scala.html* template:
 
 bc. @main(title = "Home") {
-    
+
     <h1>Home page</h1>
-    
+
 }
 
 h3. Tags
@@ -207,33 +207,33 @@ h3. Tags
 Let's write a simple *views/tags/notice.scala.html* tag that display an HTML notice:
 
 bc. @(level:String = "error")(body: (String) => Html)
- 
+
 @level match {
-    
+
     case "success" => {
         <p class="success">
             @body("green")
         </p>
     }
-    
+
     case "warning" => {
         <p class="warning">
             @body("orange")
         </p>
     }
-    
+
     case "error" => {
         <p class="error">
             @body("red")
         </p>
     }
-    
+
 }
 
 And let's use it from a template:
 
 bc. @import views.tags.html._
- 
+
 @notice("error") { color =>
     Oops, something is <span style="color:@color">wrong</span>
 }
@@ -243,7 +243,7 @@ h3. Includes
 Nothing special, you can just call any other templates:
 
 bc. <h1>Home</h1>
- 
+
 <div id="side">
     @views.common.html.sideBar()
 </div>

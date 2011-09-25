@@ -9,14 +9,14 @@ import play.data.validation._
 import models._
 
 object Application extends Controller {
-    
+
     import views.Application._
-    
+
     def index = {
         val allPosts = Post.allWithAuthorAndComments
         html.index(front = allPosts.headOption, older = allPosts.drop(1))
     }
-    
+
     def show(id: Long) = {
         Post.byIdWithAuthorAndComments(id).map { post =>
             html.show(post, post._1.prevNext, Codec.UUID)
@@ -24,7 +24,7 @@ object Application extends Controller {
             NotFound("No such Post")
         }
     }
-    
+
     def postComment(postId:Long) = {
         val author = params.get("author")
         val content = params.get("content")
@@ -32,10 +32,10 @@ object Application extends Controller {
         val randomID = params.get("randomID")
         Validation.required("author", author).message("Author is required")
         Validation.required("content", content).message("Content is required")
-        
+
         println(code)
         println(Cache.get(randomID).orNull)
-        
+
         Validation.equals("code", code, "code", Cache.get(randomID).orNull).message(
             "Invalid code. Please type it again"
         )
@@ -48,14 +48,14 @@ object Application extends Controller {
             Action(show(postId))
         }
     }
-    
+
     def captcha(id:String) = {
         val captcha = Images.captcha
         val code = captcha.getText("#E4EAFD")
         Cache.set(id, code, "10mn")
         captcha
     }
-    
+
     def listTagged(tag:String) = {
         html.listTagged( Post.findTaggedWith(tag),tag)
     }

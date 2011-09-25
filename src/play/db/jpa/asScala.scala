@@ -20,14 +20,14 @@ object asScala {
         }
         queries(key).asInstanceOf[QueryHolder[T]]
     }
-  
+
     /**
      * Provides chainable methods for java models
      */
     class JavaModelWrapper(underlying: JPABase) {
-        
+
         class Holder[T <: JPABase] {
-          
+
             def save(): T = {
                 underlying._save()
                 underlying.asInstanceOf[T]
@@ -57,7 +57,7 @@ object asScala {
                 }
             }
         }
-        
+
         def asScala[T <: JPABase] = new Holder[T]
     }
 
@@ -72,12 +72,12 @@ object asScala {
         import scala.collection.mutable.ListBuffer
 
         val buffer = ListBuffer[T]()
-        
+
         for (e <- jlist.toArray) {
             buffer += e.asInstanceOf[T]
         }
         buffer.toList
     }
-  
+
 }
 

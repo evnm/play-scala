@@ -11,7 +11,7 @@
     firstname:  Guillaume
     birthdate:  1980-12-21
     email:      !!Some[String] guillaume.bort@gmail.com
-    
+
 - !!models.Contact
     id:         !!Id[Long] 89
     name:       Drobi

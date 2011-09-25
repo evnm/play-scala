@@ -11,23 +11,23 @@ import models._
 import play.db.anorm._
 
 object Application extends Controller {
-    
+
     import views.Application._
-    
+
     def index = {
         html.index(new Date)
     }
-    
+
     def list = {
         html.list(Contact.find("order by name, firstname ASC").list())
     }
-       
+
     def edit(id: Option[Long]) = {
         html.edit {
             id.flatMap( id => Contact.find("id={id}").onParams(id).first() )
         }
     }
-    
+
     def save(id: Option[Long]) = {
         val contact = params.get("contact", classOf[Contact])
         Validation.valid("contact", contact) // We need a more powerful way to achieve this
@@ -41,11 +41,11 @@ object Application extends Controller {
             Action(list)
         }
     }
-    
+
     def delete(id: Long) = {
         Contact.delete("id={id}").onParams(id).executeUpdate()
         Action(list)
     }
-    
+
 }
 

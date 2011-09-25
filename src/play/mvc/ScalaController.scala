@@ -149,7 +149,7 @@ object ScalaControllerCompatibility {
 
 case class Promise[A]()
 abstract class Awaited[E,T]{
-  
+
   def flatMap[U](f: T => Awaited[_,U]) : Awaited[_,U] ={
    this match {
       case Done(t) => f(t)

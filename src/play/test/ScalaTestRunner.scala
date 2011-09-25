@@ -81,7 +81,7 @@ class PlayReporter extends Reporter {
                 result.time = -1
                 results add result
 
-            case TestFailed(ordinal, message, suiteName, suiteClassName, testName, throwable, duration, formatter, rerunnable, payload, threadName, timeStamp) => 
+            case TestFailed(ordinal, message, suiteName, suiteClassName, testName, throwable, duration, formatter, rerunnable, payload, threadName, timeStamp) =>
                 val result = new TestResult
                 result.name = testName
                 result.time = duration.getOrElse(0)
@@ -99,7 +99,7 @@ class PlayReporter extends Reporter {
                                                result.sourceFile = Play.classes.getApplicationClass(se.getClassName).javaFile.relativePath
                                                result.sourceLine = se.getLineNumber
                                                result.sourceCode = Play.classes.getApplicationClass(se.getClassName).javaSource.split("\n")(se.getLineNumber-1)
-                    
+
                     case Some(e) => val tmpout = new java.io.StringWriter
                                     e.printStackTrace(new java.io.PrintWriter(tmpout))
                                     result.trace = tmpout.toString
@@ -115,13 +115,13 @@ class PlayReporter extends Reporter {
                                             break
                                         }
                                     } }
-                    
+
                     case _ => // No source informations?
                 }
-                
+
                 results add result
 
-            case _ => 
+            case _ =>
 
         }
     }

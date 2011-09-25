@@ -3,14 +3,14 @@
     pagination:(Option[models.Post],Option[models.Post]),
     randomID:String
 )(
-    implicit 
+    implicit
     params:play.mvc.Scope.Params,
     flash:play.mvc.Scope.Flash,
     errors:Map[String,play.data.validation.Error]
 )
 
 @main(title = post._1.title) {
-    
+
     <ul id="pagination">
         @pagination._1.map { post =>
             <li id="previous">
@@ -27,23 +27,23 @@
             </li>
         }
     </ul>
-    
+
     @if(flash.get("success")) {
         <p class="success">@flash.get("success")</p>
     }
-    
+
     @display(post, mode = "full")
-    
+
     <h3>Post a comment</h3>
-    
+
     @form(controllers.Application.postComment(post._1.id())) {
-        
+
         @if(errors) {
             <p class="error">
                 @errors.head._2
             </p>
         }
-        
+
         <p>
             <label for="author">Your name: </label>
             <input type="text" name="author" value="@params.get("author")">
@@ -63,21 +63,21 @@
             <input type="submit" value="Submit your comment" />
         </p>
     }
-    
+
     <script type="text/javascript" charset="utf-8">
-        $(function() {         
-            // Expose the form 
-            $('form').click(function() { 
-                $('form').expose({api: true}).load(); 
-            }); 
+        $(function() {
+            // Expose the form
+            $('form').click(function() {
+                $('form').expose({api: true}).load();
+            });
 
             // If there is an error, focus to form
             if($('form .error').size()) {
-                $('form').expose({api: true, loadSpeed: 0}).load(); 
+                $('form').expose({api: true, loadSpeed: 0}).load();
                 $('form input[type=text]').get(0).focus();
             }
         });
     </script>
-    
+
 }
 

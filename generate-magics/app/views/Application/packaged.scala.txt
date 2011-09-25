@@ -2,7 +2,7 @@
 @magics(i:Int) = {
 @ts = {@args("A")}
 @args(prefix:String, separator:String = ", ") = { @Range(1,i+1).map{i =>@prefix@i}.mkString(separator)}
-    abstract class AbstractMagicParser@(i)[@ts,R]( 
+    abstract class AbstractMagicParser@(i)[@ts,R](
         tableDescription:Option[Description@i]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit @Range(1,i+1).map{i =>c@(i):ColumnTo[A@i]}.mkString(", "), r:Manifest[R]) extends MParser@(i)[@ts, R] {
@@ -55,7 +55,7 @@
            override def thisClass = companion.getClass
            def apply(@Range(1,i+1).map{i =>a@i:A@i}.mkString(", ")):R = companion(@args("a"))
            def unapply(r:R):Option[(@args("A"))] = companion.unapply(r)
-    }        
+    }
 
     case class Description@(i)(table:String,columns: Option[(@(List.fill(i)("String").mkString(", ")))]=None)
 
@@ -75,7 +75,7 @@ case class WithDefaults(defaultConvention: PartialFunction[AnalyserInfo,String] 
     def getParametersNames(m:Method):Seq[String] = {
             import scala.collection.JavaConversions._
             play.classloading.enhancers.LocalvariablesNamesEnhancer.lookupParameterNames(m)
-    } 
+    }
 
 @Range(2,i+1).map(magics)
 

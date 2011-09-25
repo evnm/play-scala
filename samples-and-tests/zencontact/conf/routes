@@ -9,7 +9,7 @@ POST    /contacts/{id}                          Application.save
 POST    /contacts                               Application.save
 GET     /contacts/{id}                          Application.edit
 GET     /contacts/new                           Application.edit
-POST    /contacts/{id}/delete                   Application.delete   
+POST    /contacts/{id}/delete                   Application.delete
 
 # Map static resources from the /app/public folder to the /public path
 GET     /                                       staticDir:public

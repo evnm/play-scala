@@ -34,7 +34,7 @@ package play {
                 case "scala.collection.immutable.Map"  => play.test.Fixtures.loadYaml(name, yamlParser).asInstanceOf[java.util.Map[Any,Any]].toMap[Any,Any].asInstanceOf[T]
                 case _                                 => play.test.Fixtures.loadYaml(name, yamlParser).asInstanceOf[T]
             }
-        } 
+        }
 
     }
 

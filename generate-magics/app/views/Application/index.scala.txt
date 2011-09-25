@@ -21,7 +21,7 @@ package anorm {
         lazy val (@Range(1,i+1).map{i =>name@i}.mkString(" ,")) = columnNames
 
         import SqlParser._
-        override def apply(input:Input):SqlParser.ParseResult[R] = 
+        override def apply(input:Input):SqlParser.ParseResult[R] =
             (@Range(1,i+1).map{i =>
              get[A@i](name@i)(p@i)}.mkString(" ~< ") ^^ { case @(Range(1,i+1).map("a"+_).mkString(" ~ ")) => apply(@Range(1,i+1).map{i=>a@i}.mkString(", "))} )(input)
 
@@ -39,7 +39,7 @@ package anorm {
             def update(v:R)(implicit hasId: @Range(1,i+1).map{ i =>(A@i <:< Pk[_])}.mkString("|:|") ) = {
 
                 val all = ((v,hasId) match {
-                        case (self(@args("a")), (@args("e"," |:| "))) => 
+                        case (self(@args("a")), (@args("e"," |:| "))) =>
                             List ( @Range(1,i+1).map{i =>
                                    (e@i, unqualify(name@i), toParameterValue(a@i)(pt@(i)._2))}.mkString(", "))
                 })
@@ -55,13 +55,13 @@ package anorm {
                     " where "+ ids.map(_._2).map( n => n+" = "+"{"+n+"}").mkString(" and ") )
                         .on(all.map(v =>  (v._2,v._3)): _* )
                         .executeUpdate()
-        
+
             }
 
            def create(v:R)(implicit hasId: @Range(1,i+1).map{ i =>(A@i <:< Pk[_])}.mkString("|:|") ) :R = {
 
                 val all = ((v,hasId) match {
-                        case (self(@args("a")), (@args("e"," |:| "))) => 
+                        case (self(@args("a")), (@args("e"," |:| "))) =>
                             List ( @Range(1,i+1).map{i =>
                                    (e@i, unqualify(name@i), toParameterValue(a@i)(pt@(i)._2))}.mkString(", "))
                 })
@@ -92,7 +92,7 @@ package anorm {
                 val List(@args("a")) = all.map(_._3.aValue).map({case NotAssigned => Id(id); case other => other})
                 apply(@Range(1,i+1).map{i =>a@(i).asInstanceOf[A@i]}.mkString(", "))
 
-        
+
         }
     }
 

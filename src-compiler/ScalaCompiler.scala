@@ -9,7 +9,7 @@ case class CompilationError(severity: xsbti.Severity, message: String, source: O
 case class ClassDefinition(name: String, code: Array[Byte], source: Option[File])
 
 object PlayScalaCompiler {
-    
+
     def scanFiles(path: File, regex: scala.util.matching.Regex = "^[^.].*[.](scala|java)$".r ):Seq[File] = {
         if(path.isDirectory) {
             path.listFiles.toSeq.collect({
@@ -19,46 +19,46 @@ object PlayScalaCompiler {
         } else {
             Nil
         }
-    } 
-    
+    }
+
 }
 
 class PlayScalaCompiler(app: File, libs: File, classpath: List[File], output: File, order: CompileOrder.Value = CompileOrder.Mixed, skipResult: Boolean = false) {
-    
+
     // Enable deeper Analysis logging -->
     // System.setProperty("xsbt.inc.debug", "true")
-    
+
     val sbt = new Launch
     val scalaProvider = sbt.getScala("2.8.1")
     val appProvider = scalaProvider.app(AppID("play", "application", "1.0", "", Array(), false, Array()))
     val appConfig = new AppConfiguration(Array(), app, appProvider)
     val compilers = SbtCompiler.compilers(ClasspathOptions(bootLibrary=true, compiler=true, extra=true, autoBoot=true, filterLibrary=true))(appConfig, SbtLogger)
-    
+
     @scala.annotation.tailrec private def classFile2className(f:File, suffix:String = ""):String = {
         (f, f.getName) match {
             case (f, name) if f.isFile => classFile2className(f.getParentFile, name.split('.').head)
             case (_, "classes") => suffix
             case (f, name) => classFile2className(f.getParentFile, name + "." + suffix)
-        }   
+        }
     }
-    
+
     // Keep the state of successive compilations
-    var previousProducts = Map[String,(File,Long)]()   
-    
+    var previousProducts = Map[String,(File,Long)]()
+
     // Public API ->
     // Call update() with the list of source files of your application,
-    // then you get Either(compilationError, (updatedClasses,removedClasses))    
-    def update(sources:List[File]):Either[CompilationError,(List[ClassDefinition], List[ClassDefinition])] = {        
+    // then you get Either(compilationError, (updatedClasses,removedClasses))
+    def update(sources:List[File]):Either[CompilationError,(List[ClassDefinition], List[ClassDefinition])] = {
         try {
-            val inputs = SbtCompiler.inputs(classpath, sources, output, Nil/*Seq("-verbose")*/, Seq("-g"), 1, order)(compilers, SbtLogger)        
-            
+            val inputs = SbtCompiler.inputs(classpath, sources, output, Nil/*Seq("-verbose")*/, Seq("-g"), 1, order)(compilers, SbtLogger)
+
             val result = SbtCompiler(inputs, SbtLogger)
             val (stamps,relations) = result.stamps -> result.relations
 
             val newProducts = Map( stamps.allProducts.toSeq.map( classFile =>
                 (classFile2className(classFile) -> (classFile, classFile.lastModified))
             ):_* )
-            
+
             val byteCode = (className:String) => {
                 val classFile = new File(output, "classes/" + className.replace(".", "/") + ".class")
                 val is = new java.io.FileInputStream(classFile)
@@ -67,15 +67,15 @@ class PlayScalaCompiler(app: File, libs: File, classpath: List[File], output: Fi
                 is.close()
                 code
             }
-            
+
             if(skipResult) {
-                
+
                 Right(Nil,Nil)
-                
+
             } else {
-                
+
                 // Compute the result of the compilation
-                
+
                 val removed = (previousProducts.keySet &~ newProducts.keySet).map( className => {
                     ClassDefinition(className, Array[Byte](), None)
                 }).toList.sortBy(_.name)
@@ -96,16 +96,16 @@ class PlayScalaCompiler(app: File, libs: File, classpath: List[File], output: Fi
                 previousProducts = newProducts
 
                 Right((updated, removed))
-                
+
             }
-            
+
         } catch {
             case cf:xsbti.CompileFailed => {
                 Left(
                     cf.problems.headOption.map( problem =>
                         CompilationError(
-                            problem.severity, 
-                            problem.message, 
+                            problem.severity,
+                            problem.message,
                             Option(problem.position).collect {case p if p.sourceFile.isDefined => p.sourceFile.get},
                             Option(problem.position).collect {case p if p.line.isDefined => p.line.get.intValue},
                             Option(problem.position).collect {case p if p.offset.isDefined => p.offset.get.intValue}
@@ -118,22 +118,22 @@ class PlayScalaCompiler(app: File, libs: File, classpath: List[File], output: Fi
             case e:java.lang.reflect.InvocationTargetException => error(e.getTargetException.getMessage)
         }
     }
-    
+
     // ~~
     // ~~ Internal SBT usage
     // ~~
-    
+
     // SBT logger
     object SbtLogger extends SbtLoggerAPI {
-        
+
         def trace(t: => Throwable) = {
             //println("TRACE: " + t)
         }
-        
+
         def success(message: => String) = {
             //println("SUCCESS: " + message)
         }
-        
+
         def log(level: Level.Value, message: => String) = {
             level match {
                 case Level.Error => println(message)
@@ -143,8 +143,8 @@ class PlayScalaCompiler(app: File, libs: File, classpath: List[File], output: Fi
 
     }
 
-    class Launch(val bootDirectory: File = app, val ivyOptions: IvyOptions = null) extends xsbti.Launcher {  
-        
+    class Launch(val bootDirectory: File = app, val ivyOptions: IvyOptions = null) extends xsbti.Launcher {
+
         lazy val tmpDirectory = new File(bootDirectory, "tmp")
 
         def getScala(version: String): xsbti.ScalaProvider = getScala(version, "")
@@ -154,19 +154,19 @@ class PlayScalaCompiler(app: File, libs: File, classpath: List[File], output: Fi
         val updateLockFile = new File(tmpDirectory, "boot.lock")
 
         def globalLock: xsbti.GlobalLock = Locks
-        
+
         // We don't use SBT dependencies management… so will allow a bunch of null here
         def ivyHome = null
 
         class ScalaProvider(val version: String) extends xsbti.ScalaProvider with Provider {
-            
+
             def launcher = Launch.this
             def parentLoader = topLoader
 
             lazy val configuration = null // Hope that's not used
             lazy val libDirectory = libs
             lazy val scalaHome = libs
-            
+
             def compilerJar = new File(scalaHome, "scala-compiler.jar")
             def libraryJar = new File(scalaHome, "scala-library.jar")
             def baseDirectories = List(scalaHome)
@@ -216,5 +216,5 @@ class PlayScalaCompiler(app: File, libs: File, classpath: List[File], output: Fi
         }
 
     }
-    
+
 }

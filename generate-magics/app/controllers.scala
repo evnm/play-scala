@@ -4,9 +4,9 @@ import play._
 import play.mvc._
 
 object Application extends Controller {
-    
+
     import views.Application._
-    
+
     def index = {
         val file = Play.getFile("generated/MagicN.scala")
         play.libs.IO.writeContent(txt.packaged(22).toString, file)

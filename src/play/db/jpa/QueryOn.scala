@@ -101,7 +101,7 @@ trait QueryOn[T <: JPABase] {
 }
 
 private[jpa] class ScalaQuery[T](val query: GenericModel.JPAQuery) {
-    
+
     def first(): Option[T] = {
         query.first().asInstanceOf[T] match {
             case x: AnyRef => Some(x.asInstanceOf[T])

@@ -22,7 +22,7 @@ trait Annotations {
     type Password = play.data.validation.Password @field
     type Phone = play.data.validation.Phone @field
     type Range = play.data.validation.Range @field
-    type Required = play.data.validation.Required @field 
+    type Required = play.data.validation.Required @field
     type URL = play.data.validation.URL @field
     type Valid = play.data.validation.Valid @field
 }

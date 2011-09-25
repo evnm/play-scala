@@ -21,7 +21,7 @@ import annotation.migration
  *    parser combinators.
  *  </p>
  *  <p>
- *    It <i>requires</i> the type of the elements these parsers should parse 
+ *    It <i>requires</i> the type of the elements these parsers should parse
  *    (each parser is polymorphic in the type of result it produces).
  *  </p>
  *  <p>
@@ -48,7 +48,7 @@ import annotation.migration
  *    of the input.
  *  </p>
  *
- * @author Martin Odersky, Iulian Dragos, Adriaan Moors 
+ * @author Martin Odersky, Iulian Dragos, Adriaan Moors
  */
 
 
@@ -73,61 +73,61 @@ trait Parsers {
    * the input). */
   sealed abstract class ParseResult[+T] {
     /** Functional composition of ParseResults
-     * 
+     *
      * @param `f' the function to be lifted over this result
      * @return `f' applied to the result of this `ParseResult', packaged up as a new `ParseResult'
      */
     def map[U](f: T => U): ParseResult[U]
-    
+
     /** Partial functional composition of ParseResults
-     * 
+     *
      * @param `f' the partial function to be lifted over this result
-     * @param error a function that takes the same argument as `f' and produces an error message 
+     * @param error a function that takes the same argument as `f' and produces an error message
      *        to explain why `f' wasn't applicable (it is called when this is the case)
      * @return <i>if `f' f is defined at the result in this `ParseResult',</i>
      *         `f' applied to the result of this `ParseResult', packaged up as a new `ParseResult'.
      *         If `f' is not defined, `Failure'.
      */
-    def mapPartial[U](f: PartialFunction[T, U], error: T => String): ParseResult[U]   
-    
-    def flatMapWithNext[U](f: T => Input => ParseResult[U]): ParseResult[U]     
+    def mapPartial[U](f: PartialFunction[T, U], error: T => String): ParseResult[U]
+
+    def flatMapWithNext[U](f: T => Input => ParseResult[U]): ParseResult[U]
 
     def append[U >: T](a: => ParseResult[U]): ParseResult[U]
-    
+
     def isEmpty = !successful
-    
+
     /** Returns the embedded result */
     def get: T
-    
-    def getOrElse[B >: T](default: => B): B = 
+
+    def getOrElse[B >: T](default: => B): B =
         if (isEmpty) default else this.get
-    
+
     val next: Input
-    
+
     val successful: Boolean
   }
 
   /** The success case of ParseResult: contains the result and the remaining input.
    *
-   *  @param result The parser's output 
+   *  @param result The parser's output
    *  @param next   The parser's remaining input
    */
   case class Success[+T](result: T, override val next: Input) extends ParseResult[T] {
     def map[U](f: T => U) = Success(f(result), next)
-    def mapPartial[U](f: PartialFunction[T, U], error: T => String): ParseResult[U] 
-       = if(f.isDefinedAt(result)) Success(f(result), next) 
+    def mapPartial[U](f: PartialFunction[T, U], error: T => String): ParseResult[U]
+       = if(f.isDefinedAt(result)) Success(f(result), next)
          else PFailure(error(result), next)
 
-    def flatMapWithNext[U](f: T => Input => ParseResult[U]): ParseResult[U] 
-      = f(result)(next) 
+    def flatMapWithNext[U](f: T => Input => ParseResult[U]): ParseResult[U]
+      = f(result)(next)
 
     def append[U >: T](a: => ParseResult[U]): ParseResult[U] = this
 
     def get: T = result
-    
+
     /** The toString method of a Success */
     override def toString = "["+next.pos+"] parsed: "+result
-    
+
     val successful = true
   }
 
@@ -142,7 +142,7 @@ trait Parsers {
     def map[U](f: Nothing => U) = this
     def mapPartial[U](f: PartialFunction[Nothing, U], error: Nothing => String): ParseResult[U] = this
 
-    def flatMapWithNext[U](f: Nothing => Input => ParseResult[U]): ParseResult[U] 
+    def flatMapWithNext[U](f: Nothing => Input => ParseResult[U]): ParseResult[U]
       = this
 
     def get: Nothing = throw new RuntimeException("No result when parsing failed")
@@ -156,7 +156,7 @@ trait Parsers {
       case _                    => None
     }
   }
-  
+
   /** The failure case of ParseResult: contains an error-message and the remaining input.
    * Parsing will back-track when a failure occurs.
    *
@@ -176,9 +176,9 @@ trait Parsers {
      val f :Failure = Failure(msg, left.withLastNoSuccess(null))
    f.copy(next = (if (!(left.lastNoSuccess != null && left.pos < left.lastNoSuccess.next.pos)) left.withLastNoSuccess(f) else left))
   }
-  
+
   /** The fatal failure case of ParseResult: contains an error-message and the remaining input.
-   * No back-tracking is done when a parser returns an `Error' 
+   * No back-tracking is done when a parser returns an `Error'
    *
    *  @param msg    An error message string describing the error.
    *  @param next   The parser's unconsumed input at the point where the error occurred.
@@ -188,56 +188,56 @@ trait Parsers {
     override def toString = "["+next.pos+"] error: "+msg+"\n\n"+next.pos.longString
     def append[U >: Nothing](a: => ParseResult[U]): ParseResult[U] = this
   }
-  
+
   def PError(msg:String, left:Input):Error =  {
     val e :Error = Error(msg, left.withLastNoSuccess(null))
     e.copy(next = (if (!(left.lastNoSuccess != null && left.pos < left.lastNoSuccess.next.pos)) left.withLastNoSuccess(e) else left))
   }
 
-  def Parser[T](f: Input => ParseResult[T]): Parser[T] 
+  def Parser[T](f: Input => ParseResult[T]): Parser[T]
     = new Parser[T]{ def apply(in: Input) = f(in) }
-  
-  def OnceParser[T](f: Input => ParseResult[T]): Parser[T] with OnceParser[T] 
+
+  def OnceParser[T](f: Input => ParseResult[T]): Parser[T] with OnceParser[T]
     = new Parser[T] with OnceParser[T] { def apply(in: Input) = f(in) }
-  
-  /** The root class of parsers. 
-   *  Parsers are functions from the Input type to ParseResult 
+
+  /** The root class of parsers.
+   *  Parsers are functions from the Input type to ParseResult
    */
   abstract class Parser[+T] extends (Input => ParseResult[T]) {
     private var name: String = ""
     def named(n: String): this.type = {name=n; this}
     override def toString() = "Parser ("+ name +")"
-    
+
     /** An unspecified method that defines the behaviour of this parser.
      */
     def apply(in: Input): ParseResult[T]
 
     def flatMap[U](f: T => Parser[U]): Parser[U]
       = Parser{ in => this(in) flatMapWithNext(f)}
-                                      
+
     def map[U](f: T => U): Parser[U] //= flatMap{x => success(f(x))}
       = Parser{ in => this(in) map(f)}
 
     // no filter yet, dealing with zero is tricky!
-  
+
     @migration(2, 9, "As of 2.9, the call-by-name argument is evaluated at most once per constructed Parser object, instead of on every need that arises during parsing.")
     def append[U >: T](p0: => Parser[U]): Parser[U] = { lazy val p = p0 // lazy argument
       Parser{ in => this(in) append p(in)}
     }
 
-                                      
+
     // the operator formerly known as +++, ++, &, but now, behold the venerable ~
     // it's short, light (looks like whitespace), has few overloaded meaning (thanks to the recent change from ~ to unary_~)
     // and we love it! (or do we like `,` better?)
-                                      
-    /** A parser combinator for sequential composition 
+
+    /** A parser combinator for sequential composition
      *
      * <p> `p ~ q' succeeds if `p' succeeds and `q' succeeds on the input
      *          left over by `p'.</p>
-     * 
+     *
      * @param q a parser that will be executed after `p' (this parser) succeeds -- evaluated at most once, and only when necessary
-     * @return a `Parser' that -- on success -- returns a `~' (like a Pair, but easier to pattern match on) 
-     *         that contains the result of `p' and that of `q'. 
+     * @return a `Parser' that -- on success -- returns a `~' (like a Pair, but easier to pattern match on)
+     *         that contains the result of `p' and that of `q'.
      *         The resulting parser fails if either `p' or `q' fails.
      */
     @migration(2, 9, "As of 2.9, the call-by-name argument is evaluated at most once per constructed Parser object, instead of on every need that arises during parsing.")
@@ -245,11 +245,11 @@ trait Parsers {
       (for(a <- this; b <- p) yield new ~(a,b)).named("~")
     }
 
-    /** A parser combinator for sequential composition which keeps only the right result 
+    /** A parser combinator for sequential composition which keeps only the right result
      *
      * <p> `p ~> q' succeeds if `p' succeeds and `q' succeeds on the input
      *           left over by `p'.</p>
-     * 
+     *
      * @param q a parser that will be executed after `p' (this parser) succeeds -- evaluated at most once, and only when necessary
      * @return a `Parser' that -- on success -- returns the result of `q'.
      */
@@ -258,14 +258,14 @@ trait Parsers {
       (for(a <- this; b <- p) yield b).named("~>")
     }
 
-    /** A parser combinator for sequential composition which keeps only the left result 
+    /** A parser combinator for sequential composition which keeps only the left result
      *
      * <p> `p &lt;~ q' succeeds if `p' succeeds and `q' succeeds on the input
      *           left over by `p'.</p>
-     * 
+     *
      * <b>Note:</b> &lt;~ has lower operator precedence than ~ or ~>.
      *
-     * @param q a parser that will be executed after `p' (this parser) succeeds -- evaluated at most once, and only when necessary 
+     * @param q a parser that will be executed after `p' (this parser) succeeds -- evaluated at most once, and only when necessary
      * @return a `Parser' that -- on success -- returns the result of `p'.
      */
     @migration(2, 9, "As of 2.9, the call-by-name argument is evaluated at most once per constructed Parser object, instead of on every need that arises during parsing.")
@@ -276,28 +276,28 @@ trait Parsers {
      /* not really useful: V cannot be inferred because Parser is covariant in first type parameter (V is always trivially Nothing)
     def ~~ [U, V](q: => Parser[U])(implicit combine: (T, U) => V): Parser[V] = new Parser[V] {
       def apply(in: Input) = seq(Parser.this, q)((x, y) => combine(x,y))(in)
-    }  */   
+    }  */
 
-    /** A parser combinator for non-back-tracking sequential composition 
+    /** A parser combinator for non-back-tracking sequential composition
      *
      *<p>`p ~! q' succeeds if `p' succeeds and `q' succeeds on the input
-     *          left over by `p'. In case of failure, no back-tracking is performed 
+     *          left over by `p'. In case of failure, no back-tracking is performed
      *          (in an earlier parser produced by the | combinator).</p>
-     * 
+     *
      * @param q a parser that will be executed after `p' (this parser) succeeds
-     * @return a `Parser' that -- on success -- returns a `~' (like a Pair, but easier to pattern match on) 
-     *         that contains the result of `p' and that of `q'. 
+     * @return a `Parser' that -- on success -- returns a `~' (like a Pair, but easier to pattern match on)
+     *         that contains the result of `p' and that of `q'.
      *         The resulting parser fails if either `p' or `q' fails, this failure is fatal.
      */
-    def ~! [U](p: => Parser[U]): Parser[~[T, U]] 
+    def ~! [U](p: => Parser[U]): Parser[~[T, U]]
       = OnceParser{ (for(a <- this; b <- commit(p)) yield new ~(a,b)).named("~!") }
-        
-    /** A parser combinator for alternative composition 
+
+    /** A parser combinator for alternative composition
      *
      *<p>`p | q' succeeds if `p' succeeds or `q' succeeds
      *          Note that `q' is only tried if `p's failure is non-fatal (i.e., back-tracking is
      *          allowed).</p>
-     * 
+     *
      * @param q a parser that will be executed if `p' (this parser) fails (and allows back-tracking)
      * @return a `Parser' that returns the result of the first parser to succeed (out of `p' and `q')
      *         The resulting parser succeeds if (and only if) <ul>
@@ -307,12 +307,12 @@ trait Parsers {
     def | [U >: T](q: => Parser[U]): Parser[U] = append(q).named("|")
 
     // TODO
-    /** A parser combinator for alternative with longest match composition 
+    /** A parser combinator for alternative with longest match composition
      *
      *<p>`p ||| q' succeeds if `p' succeeds or `q' succeeds
      *          If `p' and `q' both succeed, the parser that consumed the most
      *          characters accepts.</p>
-     * 
+     *
      * @param q0 a parser that accepts if p consumes less characters. -- evaluated at most once, and only when necessary
      * @return a `Parser' that returns the result of the parser consuming the most characters (out of `p' and `q').
      */
@@ -322,7 +322,7 @@ trait Parsers {
       def apply(in: Input) = {
         val res1 = Parser.this(in)
         val res2 = q(in)
-        
+
         (res1, res2) match {
           case (s1 @ Success(_, next1), s2 @ Success(_, next2)) => if (next2.pos < next1.pos) s1 else s2
           case (s1 @ Success(_, _), _) => s1
@@ -334,7 +334,7 @@ trait Parsers {
       override def toString = "|||"
     }
 
-    /** A parser combinator for function application 
+    /** A parser combinator for function application
      *
      *<p>`p ^^ f' succeeds if `p' succeeds; it returns `f' applied to the result of `p'.</p>
      *
@@ -343,7 +343,7 @@ trait Parsers {
      *         transformed by `f'.
      */
     def ^^ [U](f: T => U): Parser[U] = map(f).named(toString+"^^")
-    
+
 
     /** A parser combinator that changes a successful result into the specified value.
      *
@@ -356,43 +356,43 @@ trait Parsers {
       lazy val v0 = v // lazy argument
       def apply(in: Input) = Parser.this(in) map (x => v0)
     }.named(toString+"^^^")
-    
-    /** A parser combinator for partial function application 
+
+    /** A parser combinator for partial function application
      *
-     *<p>`p ^? (f, error)' succeeds if `p' succeeds AND `f' is defined at the result of `p'; 
+     *<p>`p ^? (f, error)' succeeds if `p' succeeds AND `f' is defined at the result of `p';
      *  in that case, it returns `f' applied to the result of `p'. If `f' is not applicable,
      *  error(the result of `p') should explain why.</p>
      *
-     * @param f a partial function that will be applied to this parser's result 
+     * @param f a partial function that will be applied to this parser's result
      *          (see `mapPartial' in `ParseResult').
-     * @param error a function that takes the same argument as `f' and produces an error message 
+     * @param error a function that takes the same argument as `f' and produces an error message
      *        to explain why `f' wasn't applicable
-     * @return a parser that succeeds if the current parser succeeds <i>and</i> `f' is applicable 
-     *         to the result. If so, the result will be transformed by `f'.     
+     * @return a parser that succeeds if the current parser succeeds <i>and</i> `f' is applicable
+     *         to the result. If so, the result will be transformed by `f'.
      */
     def ^? [U](f: PartialFunction[T, U], error: T => String): Parser[U] = Parser{ in =>
       this(in).mapPartial(f, error)}.named(toString+"^?")
-     
-    /** A parser combinator for partial function application 
+
+    /** A parser combinator for partial function application
      *
-     *<p>`p ^? f' succeeds if `p' succeeds AND `f' is defined at the result of `p'; 
+     *<p>`p ^? f' succeeds if `p' succeeds AND `f' is defined at the result of `p';
      *  in that case, it returns `f' applied to the result of `p'.</p>
      *
-     * @param f a partial function that will be applied to this parser's result 
+     * @param f a partial function that will be applied to this parser's result
      *          (see `mapPartial' in `ParseResult').
-     * @return a parser that succeeds if the current parser succeeds <i>and</i> `f' is applicable 
-     *         to the result. If so, the result will be transformed by `f'.     
+     * @return a parser that succeeds if the current parser succeeds <i>and</i> `f' is applicable
+     *         to the result. If so, the result will be transformed by `f'.
      */
     def ^? [U](f: PartialFunction[T, U]): Parser[U] = ^?(f, r => "Constructor function not defined at "+r)
-    
-       
+
+
     /** A parser combinator that parameterizes a subsequent parser with the result of this one
      *
      *<p>
      * Use this combinator when a parser depends on the result of a previous parser. `p' should be
      * a function that takes the result from the first parser and returns the second parser.</p>
      *
-     *<p> `p into fq' (with `fq' typically `{x => q}') first applies `p', and then, if `p' successfully  
+     *<p> `p into fq' (with `fq' typically `{x => q}') first applies `p', and then, if `p' successfully
      *    returned result `r', applies `fq(r)' to the rest of the input. </p>
      *
      *<p> From: G. Hutton. Higher-order functions for parsing. J. Funct. Program., 2(3):323--343, 1992. </p>
@@ -401,43 +401,43 @@ trait Parsers {
      * @return a parser that succeeds if this parser succeeds (with result `x') and if then `fq(x)' succeeds
      */
     def into[U](fq: T => Parser[U]): Parser[U] = flatMap(fq)
-    
+
     // shortcuts for combinators:
-    
+
     /** Returns into(fq) */
     def >>[U](fq: T => Parser[U])=into(fq)
-    
-    
+
+
     /** Returns a parser that repeatedly parses what this parser parses
      *
-     * @return rep(this) 
+     * @return rep(this)
      */
     def * = rep(this)
-    
+
     /** Returns a parser that repeatedly parses what this parser parses, interleaved with the `sep' parser.
      * The `sep' parser specifies how the results parsed by this parser should be combined.
      *
-     * @return chainl1(this, sep) 
-     */    
+     * @return chainl1(this, sep)
+     */
     def *[U >: T](sep: => Parser[(U, U) => U]) = chainl1(this, sep)
-    
-    // TODO: improve precedence? a ~ b*(",") = a ~ (b*(","))  should be true 
-    
+
+    // TODO: improve precedence? a ~ b*(",") = a ~ (b*(","))  should be true
+
     /** Returns a parser that repeatedly (at least once) parses what this parser parses.
      *
-     * @return rep1(this) 
-     */      
+     * @return rep1(this)
+     */
     def + = rep1(this)
-    
+
     /** Returns a parser that optionally parses what this parser parses.
      *
-     * @return opt(this) 
-     */       
+     * @return opt(this)
+     */
     def ? = opt(this)
   }
-  
-  /** Wrap a parser so that its failures become errors (the | combinator will give up as soon as 
-   *  it encounters an error, on failure it simply tries the next alternative) 
+
+  /** Wrap a parser so that its failures become errors (the | combinator will give up as soon as
+   *  it encounters an error, on failure it simply tries the next alternative)
    */
   def commit[T](p: => Parser[T]) = Parser{ in =>
     p(in) match{
@@ -446,22 +446,22 @@ trait Parsers {
       case f @ Failure(msg, _) => PError(msg, f.next)
     }
   }
-  
+
 	/*trait ElemFun
   case class EFCons(hd: Elem => ElemFun, tl: ElemFun) extends ElemFun
   case class EFNil(res: Boolean) extends ElemFun*/
 
-   
+
   /** A parser matching input elements that satisfy a given predicate
    *
    * <p>elem(kind, p) succeeds if the input starts with an element `e' for which p(e) is true.</p>
    *
    * @param  kind   The element kind, used for error messages
    * @param  p      A predicate that determines which elements match.
-   * @return 
+   * @return
    */
   def elem(kind: String, p: Elem => Boolean) = acceptIf(p)(inEl => kind+" expected")
-   
+
   /** A parser that matches only the given element `e'
    *
    * <p>elem(e) succeeds if the input starts with an element `e'</p>
@@ -470,20 +470,20 @@ trait Parsers {
    * @return a `Parser' that succeeds if `e' is the next available input (and returns it).
    */
   def elem(e: Elem): Parser[Elem] = accept(e)
-  
-  
-  /** A parser that matches only the given element `e' 
+
+
+  /** A parser that matches only the given element `e'
    *<p>
-   * The method is implicit so that elements can automatically be lifted to their parsers. 
+   * The method is implicit so that elements can automatically be lifted to their parsers.
    * For example, when parsing `Token's, Identifier("new") (which is a `Token') can be used directly,
    * instead of first creating a `Parser' using accept(Identifier("new")).</p>
    *
    * @param e the `Elem' that must be the next piece of input for the returned parser to succeed
    * @return a `tParser' that succeeds if `e' is the next available input.
    */
-   
+
   implicit def accept(e: Elem): Parser[Elem] = acceptIf(_ == e)("`"+e+"' expected but " + _ + " found")
-  
+
   /** A parser that matches only the given list of element `es'
    *
    * <p>accept(es) succeeds if the input subsequently provides the elements in the list `es'.</p>
@@ -495,15 +495,15 @@ trait Parsers {
 
   /** The parser that matches an element in the domain of the partial function `f'
    *<p>
-   * If `f' is defined on the first element in the input, `f' is applied to it to produce 
+   * If `f' is defined on the first element in the input, `f' is applied to it to produce
    * this parser's result.</p>
    *<p>
-   * Example: The parser <code>accept("name", {case Identifier(n) => Name(n)})</code> 
+   * Example: The parser <code>accept("name", {case Identifier(n) => Name(n)})</code>
    *          accepts an <code>Identifier(n)</code> and returns a <code>Name(n)</code>.</p>
    *
    * @param expected a description of the kind of element this parser expects (for error messages)
    * @param f a partial function that determines when this parser is successful and what its output is
-   * @return A parser that succeeds if `f' is applicable to the first element of the input, 
+   * @return A parser that succeeds if `f' is applicable to the first element of the input,
    *         applying `f' to it to produce the result.
    */
   def accept[U](expected: String, f: PartialFunction[Elem, U]): Parser[U] = acceptMatch(expected, f)
@@ -513,30 +513,30 @@ trait Parsers {
     if (p(in.first)) Success(in.first, in.rest)
     else PFailure(err(in.first), in)
   }
-  
-  def acceptMatch[U](expected: String, f: PartialFunction[Elem, U]): Parser[U] = Parser{ in => 
+
+  def acceptMatch[U](expected: String, f: PartialFunction[Elem, U]): Parser[U] = Parser{ in =>
     if (f.isDefinedAt(in.first)) Success(f(in.first), in.rest)
     else PFailure(expected+" expected", in)
   }
-  
+
   def acceptSeq[ES <% Iterable[Elem]](es: ES): Parser[List[Elem]] = es.foldRight[Parser[List[Elem]]](success(Nil)){(x, pxs) => accept(x) ~ pxs ^^ mkList}
 
-  /** A parser that always fails 
+  /** A parser that always fails
    *
-   * @param msg The error message describing the failure. 
+   * @param msg The error message describing the failure.
    * @return A parser that always fails with the specified error message.
    */
   def failure(msg: String) = Parser{ in => PFailure(msg, in) }
 
-  /** A parser that results in an error 
+  /** A parser that results in an error
    *
-   * @param msg The error message describing the failure. 
+   * @param msg The error message describing the failure.
    * @return A parser that always fails with the specified error message.
-   */  
+   */
   def err(msg: String) = Parser{ in => PError(msg, in) }
 
 
-  /** A parser that always succeeds 
+  /** A parser that always succeeds
    *
    * @param v The result for the parser
    * @return A parser that always succeeds, with the given result `v'
@@ -549,10 +549,10 @@ trait Parsers {
     println(name +" --> "+ r)
     r
   }
-  
+
   /** A parser generator for repetitions.
-   *  
-   * <p> rep(p)   repeatedly uses `p' to parse the input until `p' fails (the result is a List 
+   *
+   * <p> rep(p)   repeatedly uses `p' to parse the input until `p' fails (the result is a List
    *  of the consecutive results of `p') </p>
    *
    * @param p a `Parser' that is to be applied successively to the input
@@ -561,24 +561,24 @@ trait Parsers {
   def rep[T](p: => Parser[T]): Parser[List[T]] = rep1(p) | success(List())
 
   /** A parser generator for interleaved repetitions.
-   *  
+   *
    * <p> repsep(p, q)   repeatedly uses `p' interleaved with `q' to parse the input, until `p' fails.
    *  (The result is a `List' of the results of `p'.) </p>
    *
-   * <p>Example: <code>repsep(term, ",")</code> parses a comma-separated list of term's, 
+   * <p>Example: <code>repsep(term, ",")</code> parses a comma-separated list of term's,
    *          yielding a list of these terms</p>
    *
    * @param p a `Parser' that is to be applied successively to the input
    * @param q a `Parser' that parses the elements that separate the elements parsed by `p'
    * @return A parser that returns a list of results produced by repeatedly applying `p' (interleaved
-   *         with `q') to the input. 
-   *         The results of `p' are collected in a list. The results of `q' are discarded.    
+   *         with `q') to the input.
+   *         The results of `p' are collected in a list. The results of `q' are discarded.
    */
-  def repsep[T](p: => Parser[T], q: => Parser[Any]): Parser[List[T]] = 
+  def repsep[T](p: => Parser[T], q: => Parser[Any]): Parser[List[T]] =
     rep1sep(p, q) | success(List())
-  
+
   /** A parser generator for non-empty repetitions.
-   *  
+   *
    * <p> rep1(p) repeatedly uses `p' to parse the input until `p' fails -- `p' must succeed at least
    *             once (the result is a `List' of the consecutive results of `p')</p>
    *
@@ -587,16 +587,16 @@ trait Parsers {
    *        (and that only succeeds if `p' matches at least once).
    */
   def rep1[T](p: => Parser[T]): Parser[List[T]] = rep1(p, p)
-  
+
   /** A parser generator for non-empty repetitions.
-   *  
-   * <p> rep1(f, p) first uses `f' (which must succeed) and then repeatedly uses `p' to 
-   *     parse the input until `p' fails 
+   *
+   * <p> rep1(f, p) first uses `f' (which must succeed) and then repeatedly uses `p' to
+   *     parse the input until `p' fails
    *     (the result is a `List' of the consecutive results of `f' and `p')</p>
    *
    * @param first a `Parser' that parses the first piece of input
    * @param p0 a `Parser' that is to be applied successively to the rest of the input (if any) -- evaluated at most once, and only when necessary
-   * @return A parser that returns a list of results produced by first applying `f' and then 
+   * @return A parser that returns a list of results produced by first applying `f' and then
    *         repeatedly `p' to the input (it only succeeds if `f' matches).
    */
   @migration(2, 9, "As of 2.9, the p0 call-by-name arguments is evaluated at most once per constructed Parser object, instead of on every need that arises during parsing.")
@@ -610,7 +610,7 @@ trait Parsers {
         case Success(x, rest) => elems += x ; applyp(rest)
         case _                => Success(elems.toList, in0)
       }
-      
+
       applyp(in)
     }
 
@@ -621,45 +621,45 @@ trait Parsers {
   }
 
   /** A parser generator for a specified number of repetitions.
-   *  
-   * <p> repN(n, p)  uses `p' exactly `n' time to parse the input 
+   *
+   * <p> repN(n, p)  uses `p' exactly `n' time to parse the input
    *       (the result is a `List' of the `n' consecutive results of `p')</p>
    *
    * @param p a `Parser' that is to be applied successively to the input
    * @param n the exact number of times `p' must succeed
    * @return A parser that returns a list of results produced by repeatedly applying `p' to the input
    *        (and that only succeeds if `p' matches exactly `n' times).
-   */  
-  def repN[T](num: Int, p: => Parser[T]): Parser[List[T]] = 
+   */
+  def repN[T](num: Int, p: => Parser[T]): Parser[List[T]] =
     if (num == 0) success(Nil) else Parser { in =>
       val elems = new ListBuffer[T]
       val p0 = p    // avoid repeatedly re-evaluating by-name parser
-      
+
       @tailrec def applyp(in0: Input): ParseResult[List[T]] =
         if (elems.length == num) Success(elems.toList, in0)
         else p0(in0) match {
           case Success(x, rest)   => elems += x ; applyp(rest)
           case ns: NoSuccess      => return ns
         }
-      
+
       applyp(in)
     }
-  
+
   /** A parser generator for non-empty repetitions.
-   *  
+   *
    *  <p>rep1sep(p, q) repeatedly applies `p' interleaved with `q' to parse the input, until `p' fails.
    *                The parser `p' must succeed at least once.</p>
    *
    * @param p a `Parser' that is to be applied successively to the input
-   * @param q a `Parser' that parses the elements that separate the elements parsed by `p' 
-   *          (interleaved with `q')   
+   * @param q a `Parser' that parses the elements that separate the elements parsed by `p'
+   *          (interleaved with `q')
    * @return A parser that returns a list of results produced by repeatedly applying `p' to the input
    *         (and that only succeeds if `p' matches at least once).
-   *         The results of `p' are collected in a list. The results of `q' are discarded.    
+   *         The results of `p' are collected in a list. The results of `q' are discarded.
    */
-  def rep1sep[T](p : => Parser[T], q : => Parser[Any]): Parser[List[T]] = 
-    p ~ rep(q ~> p) ^^ {case x~y => x::y} 
-   
+  def rep1sep[T](p : => Parser[T], q : => Parser[Any]): Parser[List[T]] =
+    p ~ rep(q ~> p) ^^ {case x~y => x::y}
+
 
   /** A parser generator that, roughly, generalises the rep1sep generator so that `q', which parses the separator,
    * produces a left-associative function that combines the elements it separates.
@@ -667,10 +667,10 @@ trait Parsers {
    * <p> From: J. Fokker. Functional parsers. In J. Jeuring and E. Meijer, editors, Advanced Functional Programming, volume 925 of Lecture Notes in Computer Science, pages 1--23. Springer, 1995.</p>
    *
    * @param p a parser that parses the elements
-   * @param q a parser that parses the token(s) separating the elements, yielding a left-associative function that 
-   *          combines two elements into one 
+   * @param q a parser that parses the token(s) separating the elements, yielding a left-associative function that
+   *          combines two elements into one
    */
-  def chainl1[T](p: => Parser[T], q: => Parser[(T, T) => T]): Parser[T]  
+  def chainl1[T](p: => Parser[T], q: => Parser[(T, T) => T]): Parser[T]
     = chainl1(p, p, q)
 
   /** A parser generator that, roughly, generalises the rep1sep generator so that `q', which parses the separator,
@@ -678,23 +678,23 @@ trait Parsers {
    *
    * @param first a parser that parses the first element
    * @param p a parser that parses the subsequent elements
-   * @param q a parser that parses the token(s) separating the elements, yielding a left-associative function that 
-   *          combines two elements into one 
+   * @param q a parser that parses the token(s) separating the elements, yielding a left-associative function that
+   *          combines two elements into one
    */
-  def chainl1[T, U](first: => Parser[T], p: => Parser[U], q: => Parser[(T, U) => T]): Parser[T] 
+  def chainl1[T, U](first: => Parser[T], p: => Parser[U], q: => Parser[(T, U) => T]): Parser[T]
     = first ~ rep(q ~ p) ^^ {
         case x ~ xs => xs.foldLeft(x){(_, _) match {case (a, f ~ b) => f(a, b)}}
       }
-        
+
   /** A parser generator that generalises the rep1sep generator so that `q', which parses the separator,
    * produces a right-associative function that combines the elements it separates. Additionally,
    * The right-most (last) element and the left-most combining function have to be supplied.
-   * 
+   *
    * rep1sep(p: Parser[T], q) corresponds to chainr1(p, q ^^ cons, cons, Nil) (where val cons = (x: T, y: List[T]) => x :: y)
    *
    * @param p a parser that parses the elements
-   * @param q a parser that parses the token(s) separating the elements, yielding a right-associative function that 
-   *          combines two elements into one 
+   * @param q a parser that parses the token(s) separating the elements, yielding a right-associative function that
+   *          combines two elements into one
    * @param combine the "last" (left-most) combination function to be applied
    * @param first   the "first" (right-most) element to be combined
    */
@@ -703,28 +703,28 @@ trait Parsers {
         case x ~ xs => (new ~(combine, x) :: xs).
                             foldRight(first){(_, _) match {case (f ~ a, b) => f(a, b)}}
       }
-    
+
   /** A parser generator for optional sub-phrases.
-   *  
+   *
    *  <p>opt(p) is a parser that returns `Some(x)' if `p' returns `x' and `None' if `p' fails</p>
    *
    * @param p A `Parser' that is tried on the input
-   * @return a `Parser' that always succeeds: either with the result provided by `p' or 
+   * @return a `Parser' that always succeeds: either with the result provided by `p' or
    *         with the empty result
    */
-  def opt[T](p: => Parser[T]): Parser[Option[T]] = 
+  def opt[T](p: => Parser[T]): Parser[Option[T]] =
     p ^^ (x => Some(x)) | success(None)
 
-  /** Wrap a parser so that its failures&errors become success and vice versa -- it never consumes any input 
+  /** Wrap a parser so that its failures&errors become success and vice versa -- it never consumes any input
    */
   def not[T](p: => Parser[T]): Parser[Unit] = Parser { in =>
     p(in) match {
       case Success(_, _)  => PFailure("Expected failure", in)
       case _              => Success((), in)
     }
-  }  
+  }
 
-  /** A parser generator for guard expressions. The resulting parser will fail or succeed 
+  /** A parser generator for guard expressions. The resulting parser will fail or succeed
    * just like the one given as parameter but it will not consume any input.
    *
    * @param p a `Parser' that is to be applied to the input
@@ -738,11 +738,11 @@ trait Parsers {
   }
 
  /*
- 
-  /** `positioned' decorates a parser's result with the start position of the input it consumed. 
-   * 
+
+  /** `positioned' decorates a parser's result with the start position of the input it consumed.
+   *
    * @param p a `Parser' whose result conforms to `Positional'.
-   * @return A parser that has the same behaviour as `p', but which marks its result with the 
+   * @return A parser that has the same behaviour as `p', but which marks its result with the
    *         start position of the input it consumed, if it didn't already have a position.
    */
   def positioned[T <: Positional](p: => Parser[T]): Parser[T] = Parser { in =>
@@ -769,11 +769,11 @@ trait Parsers {
   def phrase[T](p: Parser[T]) = new Parser[T] {
     def apply(in: Input) = p(in) match {
       case s @ Success(out, in1) =>
-        if (in1.atEnd) 
+        if (in1.atEnd)
           s
         else if (in1.lastNoSuccess == null || in1.lastNoSuccess.next.pos < in1.pos)
           PFailure("end of input expected", in1)
-        else 
+        else
           in1.lastNoSuccess
       case ns@ NoSuccess(msg,next) => next.lastNoSuccess
     }

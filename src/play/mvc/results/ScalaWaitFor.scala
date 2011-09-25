@@ -9,7 +9,7 @@ class ScalaWaitFor(tasks: Future[_]) extends Result {
     val delegate = new play.Invoker.Suspend(tasks)
 
     Http.Request.current().isNew = false
-  
+
     def apply(request: Http.Request , response:Http.Response) {
         throw delegate
     }

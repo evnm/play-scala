@@ -48,13 +48,13 @@ case class Post(
             opt('pos.is("prev")~>Post.on("")) ~ opt('pos.is("next")~>Post.on("")) ^^ flatten
         )
     }
-    
+
 
     def tagItWith(name:String) = {
         val tag=Tag.findOrCreateByName(name)
         TagsForPosts.link(tag.id(),id())
-    }    
-    
+    }
+
     def getTags:List[String]={
      SQL("SELECT T.NAME FROM TAG t JOIN TagsForPosts tfp on tfp.tag_id=t.id join Post p on p.id=tfp.post_id where p.id={id}")
         .on("id"->id())
@@ -93,7 +93,7 @@ object Post extends Magic[Post] {
                 where p.id = {id}
             """
         ).on("id" -> id).as( Post ~< User ~< Post.spanM( Comment ) ^^ flatten ? )
-    
+
     def findTaggedWith(name:String):List[Post] =
         SQL("""
             select * from Post p
@@ -101,16 +101,16 @@ object Post extends Magic[Post] {
             join Tag t on tfp.tag_id=t.id
             where t.name={name}
         """).on("name"->name).as(Post *)
-    
+
     def findTaggedWith(tagNames:List[String]):List[Post] = {
         println(tagNames.mkString("','"))
-        SQL("select distinct(p.*) from Post p join TagsForPosts tf on p.id=tf.post_id join Tag t on tf.tag_id=t.id where t.name in (" 
+        SQL("select distinct(p.*) from Post p join TagsForPosts tf on p.id=tf.post_id join Tag t on tf.tag_id=t.id where t.name in ("
                 +"'"
                 +tagNames.mkString("','")
                 +"'"
                 +") group by p.id having count(t.id) = {size}").on("size"->tagNames.length).as(Post *)
     }
-        
+
 
 }
 
@@ -131,17 +131,17 @@ case class Tag(id:Pk[Long],name:String)
 
 object Tag extends Magic[Tag] {
     def apply(name:String) = new Tag(NotAssigned,name)
-    
-    def findOrCreateByName(name:String):Tag = 
+
+    def findOrCreateByName(name:String):Tag =
         Tag.find("name={pname}").on("pname"->name).first().getOrElse(Tag.create(Tag(name)))
-    
+
 }
 
 case class TagsForPosts(id:Pk[Long],tag_id:Long,post_id:Long)
 
 object TagsForPosts extends Magic[TagsForPosts] {
     def apply(tag_id:Long,post_id:Long) = new TagsForPosts(NotAssigned,tag_id,post_id)
-    
+
     def link(tag_id:Long,post_id:Long):Option[Long] = {
          for(
             tag <- Tag.find("id={pid}").on("pid"->tag_id).first();
@@ -157,15 +157,15 @@ object TagsForPosts extends Magic[TagsForPosts] {
             }
         ) yield newKey
     }
-    
-    
+
+
     def getCloud:List[(String,Long)] = {
-          SQL(""" 
-                SELECT t.name, count(p.id) as totalPosts 
+          SQL("""
+                SELECT t.name, count(p.id) as totalPosts
                 FROM Post p
                 JOIN TagsForPosts tfp on p.id=tfp.post_id
                 JOIN Tag t ON tfp.tag_id=t.id
-                GROUP BY t.name ORDER BY t.name  
+                GROUP BY t.name ORDER BY t.name
                 """).as(str("name") ~< long("totalPosts") ^^ flatten *)
     }
 }

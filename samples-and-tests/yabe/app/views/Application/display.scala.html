@@ -7,7 +7,7 @@
         no comments
     }
 }
- 
+
 <div class="post @mode">
     <h2 class="post-title">
         <a href="@action(controllers.Application.show(post._1.id()))">@post._1.title</a>
@@ -22,14 +22,14 @@
                 @commentsTitle
             </span>
         }
-        
+
     <span class="post-tags">
-            - Tagged 
+            - Tagged
              @post._1.getTags.map{ tag=>
                     <a href="@action(controllers.Application.listTagged(tag))">@tag</a>
             }
      </span>
-         
+
     </div>
     @if(mode != "teaser") {
         <div class="post-content">
@@ -40,12 +40,12 @@
 </div>
 
 @if(mode == "full") {
-    
+
     <div class="comments">
         <h3>
             @commentsTitle
         </h3>
-        
+
         @post._3.map { comment =>
             <div class="comment">
                 <div class="comment-metadata">
@@ -60,8 +60,8 @@
                 </div>
             </div>
         }
-        
+
     </div>
-    
+
 }
-        
+

@@ -280,7 +280,7 @@ package play.templates {
                     }
                 )
             }
-            
+
             def squareBrackets:Parser[String] = {
                 "[" ~ (several((squareBrackets | not("]") ~> any))) ~ commit("]") ^^ {
                     case p1~charList~p2 => p1 + charList.mkString + p2
@@ -645,7 +645,7 @@ package play.templates {
     }
 
 
-    
+
 
     case class BaseScalaTemplate[T<:Appendable[T],F<:Format[T]](format: F) {
 
@@ -680,7 +680,7 @@ package play.templates {
             import scala.collection.JavaConverters._
             x.asScala
         }
-        
+
         // --- DEFAULT
 
         case class Default(default:Any) {

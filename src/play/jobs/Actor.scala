@@ -57,7 +57,7 @@ trait PlayActor extends Actor {
     }
 
     start
-    
+
 }
 
 object PlayActor extends PlayActor

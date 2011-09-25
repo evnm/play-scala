@@ -16,12 +16,12 @@ import play.classloading.enhancers.ControllersEnhancer.ControllerSupport
  * utility class to provider an easier way to render arguments
  */
 private[mvc] class RichRenderArgs(val renderArgs: RenderArgs) {
-    
+
     def +=(variable: Tuple2[String, Any]) = {
         renderArgs.put(variable._1, variable._2)
         this
     }
-    
+
     def apply(key: String) = {
         renderArgs.data.containsKey(key) match {
             case true => Some(renderArgs.get(key))
@@ -34,12 +34,12 @@ private[mvc] class RichRenderArgs(val renderArgs: RenderArgs) {
  * utility class to provider an easier way to flash arguments
  */
 private[mvc] class RichFlash(val flash: Flash) {
-    
+
     def +=(variable: Tuple2[String, String]) = {
         flash.put(variable._1, variable._2)
         this
     }
-    
+
     def apply(key: String) = {
         flash.contains(key) match {
             case true => Some(flash.get(key))
@@ -52,12 +52,12 @@ private[mvc] class RichFlash(val flash: Flash) {
  * utility class to provide some extra syntactic sugar while dealing with a session
  */
 private[mvc] class RichSession(val session: Session) {
-    
+
     def +=(variable: Tuple2[String, String]) = {
         session.put(variable._1, variable._2)
         this
     }
-    
+
     def apply(key: String) = {
         session.contains(key) match {
             case true => Some(session.get(key))
@@ -67,9 +67,9 @@ private[mvc] class RichSession(val session: Session) {
 }
 
 private[mvc] class RichValidation(val validation: Validation) {
-    
+
     def hasErrors = Validation.hasErrors()
-    
+
 }
 
 /**

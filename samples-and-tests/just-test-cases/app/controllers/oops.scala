@@ -72,7 +72,7 @@ object Urls extends Defaults {
  }
 
  def delete(id: Long) {
-   
+
  }
 
 
@@ -82,5 +82,5 @@ object Urls extends Defaults {
 
  private[xcontrollers] def checkOwner(page: Any): Unit = {
  }
- 
+
 }

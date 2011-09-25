@@ -13,16 +13,16 @@ trait WithDefaults{
     def getParametersNames(m:Method):Seq[String] = {
             import scala.collection.JavaConversions._
             play.classloading.enhancers.LocalvariablesNamesEnhancer.lookupParameterNames(m)
-    } 
+    }
 
 
 
 
-    abstract class AbstractMagicParser2[ A1, A2,R]( 
+    abstract class AbstractMagicParser2[ A1, A2,R](
         tableDescription:Option[Description2]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], r:Manifest[R]) extends MParser2[ A1, A2, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
 
@@ -49,9 +49,9 @@ trait WithDefaults{
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), r:Manifest[R]) extends AbstractMagicParser2[ A1, A2, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1,r) with  M2[ A1, A2, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
 }
 
     case class MagicParser2[ A1, A2, R](
@@ -73,7 +73,7 @@ ptt1._1, ptt2._1,r) with  M2[ A1, A2, R]{
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2):R = companion( a1, a2)
            def unapply(r:R):Option[( A1, A2)] = companion.unapply(r)
-    }        
+    }
 
     case class Description2(table:String,columns: Option[(String, String)]=None)
 
@@ -84,11 +84,11 @@ ptt1._1, ptt2._1,r) with  M2[ A1, A2, R]{
 
 
 
-    abstract class AbstractMagicParser3[ A1, A2, A3,R]( 
+    abstract class AbstractMagicParser3[ A1, A2, A3,R](
         tableDescription:Option[Description3]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], r:Manifest[R]) extends MParser3[ A1, A2, A3, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -116,10 +116,10 @@ ptt1._1, ptt2._1,r) with  M2[ A1, A2, R]{
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), r:Manifest[R]) extends AbstractMagicParser3[ A1, A2, A3, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1,r) with  M3[ A1, A2, A3, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
 }
 
     case class MagicParser3[ A1, A2, A3, R](
@@ -141,7 +141,7 @@ ptt1._1, ptt2._1, ptt3._1,r) with  M3[ A1, A2, A3, R]{
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3):R = companion( a1, a2, a3)
            def unapply(r:R):Option[( A1, A2, A3)] = companion.unapply(r)
-    }        
+    }
 
     case class Description3(table:String,columns: Option[(String, String, String)]=None)
 
@@ -152,11 +152,11 @@ ptt1._1, ptt2._1, ptt3._1,r) with  M3[ A1, A2, A3, R]{
 
 
 
-    abstract class AbstractMagicParser4[ A1, A2, A3, A4,R]( 
+    abstract class AbstractMagicParser4[ A1, A2, A3, A4,R](
         tableDescription:Option[Description4]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], r:Manifest[R]) extends MParser4[ A1, A2, A3, A4, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -185,11 +185,11 @@ ptt1._1, ptt2._1, ptt3._1,r) with  M3[ A1, A2, A3, R]{
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), r:Manifest[R]) extends AbstractMagicParser4[ A1, A2, A3, A4, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1,r) with  M4[ A1, A2, A3, A4, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
 }
 
     case class MagicParser4[ A1, A2, A3, A4, R](
@@ -211,7 +211,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1,r) with  M4[ A1, A2, A3, A4, R]{
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4):R = companion( a1, a2, a3, a4)
            def unapply(r:R):Option[( A1, A2, A3, A4)] = companion.unapply(r)
-    }        
+    }
 
     case class Description4(table:String,columns: Option[(String, String, String, String)]=None)
 
@@ -222,11 +222,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1,r) with  M4[ A1, A2, A3, A4, R]{
 
 
 
-    abstract class AbstractMagicParser5[ A1, A2, A3, A4, A5,R]( 
+    abstract class AbstractMagicParser5[ A1, A2, A3, A4, A5,R](
         tableDescription:Option[Description5]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], r:Manifest[R]) extends MParser5[ A1, A2, A3, A4, A5, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -256,12 +256,12 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1,r) with  M4[ A1, A2, A3, A4, R]{
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), r:Manifest[R]) extends AbstractMagicParser5[ A1, A2, A3, A4, A5, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1,r) with  M5[ A1, A2, A3, A4, A5, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
 }
 
     case class MagicParser5[ A1, A2, A3, A4, A5, R](
@@ -283,7 +283,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1,r) with  M5[ A1, A2, A3, A4, A5, R]{
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5):R = companion( a1, a2, a3, a4, a5)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5)] = companion.unapply(r)
-    }        
+    }
 
     case class Description5(table:String,columns: Option[(String, String, String, String, String)]=None)
 
@@ -294,11 +294,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1,r) with  M5[ A1, A2, A3, A4, A5, R]{
 
 
 
-    abstract class AbstractMagicParser6[ A1, A2, A3, A4, A5, A6,R]( 
+    abstract class AbstractMagicParser6[ A1, A2, A3, A4, A5, A6,R](
         tableDescription:Option[Description6]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], r:Manifest[R]) extends MParser6[ A1, A2, A3, A4, A5, A6, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -329,13 +329,13 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1,r) with  M5[ A1, A2, A3, A4, A5, R]{
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), r:Manifest[R]) extends AbstractMagicParser6[ A1, A2, A3, A4, A5, A6, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1,r) with  M6[ A1, A2, A3, A4, A5, A6, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
 }
 
     case class MagicParser6[ A1, A2, A3, A4, A5, A6, R](
@@ -357,7 +357,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1,r) with  M6[ A1, A2, A3, A4
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6):R = companion( a1, a2, a3, a4, a5, a6)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6)] = companion.unapply(r)
-    }        
+    }
 
     case class Description6(table:String,columns: Option[(String, String, String, String, String, String)]=None)
 
@@ -368,11 +368,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1,r) with  M6[ A1, A2, A3, A4
 
 
 
-    abstract class AbstractMagicParser7[ A1, A2, A3, A4, A5, A6, A7,R]( 
+    abstract class AbstractMagicParser7[ A1, A2, A3, A4, A5, A6, A7,R](
         tableDescription:Option[Description7]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], r:Manifest[R]) extends MParser7[ A1, A2, A3, A4, A5, A6, A7, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -404,14 +404,14 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1,r) with  M6[ A1, A2, A3, A4
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), r:Manifest[R]) extends AbstractMagicParser7[ A1, A2, A3, A4, A5, A6, A7, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1,r) with  M7[ A1, A2, A3, A4, A5, A6, A7, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
 }
 
     case class MagicParser7[ A1, A2, A3, A4, A5, A6, A7, R](
@@ -433,7 +433,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1,r) with  M7[ A1, A
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7):R = companion( a1, a2, a3, a4, a5, a6, a7)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7)] = companion.unapply(r)
-    }        
+    }
 
     case class Description7(table:String,columns: Option[(String, String, String, String, String, String, String)]=None)
 
@@ -444,11 +444,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1,r) with  M7[ A1, A
 
 
 
-    abstract class AbstractMagicParser8[ A1, A2, A3, A4, A5, A6, A7, A8,R]( 
+    abstract class AbstractMagicParser8[ A1, A2, A3, A4, A5, A6, A7, A8,R](
         tableDescription:Option[Description8]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], r:Manifest[R]) extends MParser8[ A1, A2, A3, A4, A5, A6, A7, A8, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -481,15 +481,15 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1,r) with  M7[ A1, A
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), r:Manifest[R]) extends AbstractMagicParser8[ A1, A2, A3, A4, A5, A6, A7, A8, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1,r) with  M8[ A1, A2, A3, A4, A5, A6, A7, A8, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
 }
 
     case class MagicParser8[ A1, A2, A3, A4, A5, A6, A7, A8, R](
@@ -511,7 +511,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1,r) with  
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8):R = companion( a1, a2, a3, a4, a5, a6, a7, a8)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8)] = companion.unapply(r)
-    }        
+    }
 
     case class Description8(table:String,columns: Option[(String, String, String, String, String, String, String, String)]=None)
 
@@ -522,11 +522,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1,r) with  
 
 
 
-    abstract class AbstractMagicParser9[ A1, A2, A3, A4, A5, A6, A7, A8, A9,R]( 
+    abstract class AbstractMagicParser9[ A1, A2, A3, A4, A5, A6, A7, A8, A9,R](
         tableDescription:Option[Description9]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], r:Manifest[R]) extends MParser9[ A1, A2, A3, A4, A5, A6, A7, A8, A9, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -560,16 +560,16 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1,r) with  
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), r:Manifest[R]) extends AbstractMagicParser9[ A1, A2, A3, A4, A5, A6, A7, A8, A9, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,r) with  M9[ A1, A2, A3, A4, A5, A6, A7, A8, A9, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
 }
 
     case class MagicParser9[ A1, A2, A3, A4, A5, A6, A7, A8, A9, R](
@@ -591,7 +591,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9)] = companion.unapply(r)
-    }        
+    }
 
     case class Description9(table:String,columns: Option[(String, String, String, String, String, String, String, String, String)]=None)
 
@@ -602,11 +602,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser10[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10,R]( 
+    abstract class AbstractMagicParser10[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10,R](
         tableDescription:Option[Description10]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], r:Manifest[R]) extends MParser10[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -641,17 +641,17 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), r:Manifest[R]) extends AbstractMagicParser10[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1,r) with  M10[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
 }
 
     case class MagicParser10[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R](
@@ -673,7 +673,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)] = companion.unapply(r)
-    }        
+    }
 
     case class Description10(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -684,11 +684,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser11[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11,R]( 
+    abstract class AbstractMagicParser11[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11,R](
         tableDescription:Option[Description11]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], r:Manifest[R]) extends MParser11[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -724,18 +724,18 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), r:Manifest[R]) extends AbstractMagicParser11[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1,r) with  M11[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
 }
 
     case class MagicParser11[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R](
@@ -757,7 +757,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)] = companion.unapply(r)
-    }        
+    }
 
     case class Description11(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -768,11 +768,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser12[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12,R]( 
+    abstract class AbstractMagicParser12[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12,R](
         tableDescription:Option[Description12]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], r:Manifest[R]) extends MParser12[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -809,19 +809,19 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), r:Manifest[R]) extends AbstractMagicParser12[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1,r) with  M12[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
 }
 
     case class MagicParser12[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R](
@@ -843,7 +843,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)] = companion.unapply(r)
-    }        
+    }
 
     case class Description12(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -854,11 +854,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser13[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13,R]( 
+    abstract class AbstractMagicParser13[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13,R](
         tableDescription:Option[Description13]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], r:Manifest[R]) extends MParser13[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -896,20 +896,20 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), r:Manifest[R]) extends AbstractMagicParser13[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1,r) with  M13[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
 }
 
     case class MagicParser13[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, R](
@@ -931,7 +931,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)] = companion.unapply(r)
-    }        
+    }
 
     case class Description13(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -942,11 +942,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser14[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14,R]( 
+    abstract class AbstractMagicParser14[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14,R](
         tableDescription:Option[Description14]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], r:Manifest[R]) extends MParser14[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -985,21 +985,21 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), r:Manifest[R]) extends AbstractMagicParser14[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1,r) with  M14[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
 }
 
     case class MagicParser14[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, R](
@@ -1021,7 +1021,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)] = companion.unapply(r)
-    }        
+    }
 
     case class Description14(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -1032,11 +1032,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser15[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15,R]( 
+    abstract class AbstractMagicParser15[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15,R](
         tableDescription:Option[Description15]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], c15:ColumnTo[A15], r:Manifest[R]) extends MParser15[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -1076,22 +1076,22 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), ptt15:(ColumnTo[A15],ToStatement[A15]), r:Manifest[R]) extends AbstractMagicParser15[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1, ptt15._1,r) with  M15[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
-        lazy val pt15 = ptt15 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
+        lazy val pt15 = ptt15
 }
 
     case class MagicParser15[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, R](
@@ -1113,7 +1113,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14, a15:A15):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15)] = companion.unapply(r)
-    }        
+    }
 
     case class Description15(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -1124,11 +1124,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser16[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16,R]( 
+    abstract class AbstractMagicParser16[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16,R](
         tableDescription:Option[Description16]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], c15:ColumnTo[A15], c16:ColumnTo[A16], r:Manifest[R]) extends MParser16[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -1169,23 +1169,23 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), ptt15:(ColumnTo[A15],ToStatement[A15]), ptt16:(ColumnTo[A16],ToStatement[A16]), r:Manifest[R]) extends AbstractMagicParser16[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1, ptt15._1, ptt16._1,r) with  M16[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
-        lazy val pt15 = ptt15 
-        lazy val pt16 = ptt16 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
+        lazy val pt15 = ptt15
+        lazy val pt16 = ptt16
 }
 
     case class MagicParser16[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, R](
@@ -1207,7 +1207,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14, a15:A15, a16:A16):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16)] = companion.unapply(r)
-    }        
+    }
 
     case class Description16(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -1218,11 +1218,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser17[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17,R]( 
+    abstract class AbstractMagicParser17[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17,R](
         tableDescription:Option[Description17]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], c15:ColumnTo[A15], c16:ColumnTo[A16], c17:ColumnTo[A17], r:Manifest[R]) extends MParser17[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -1264,24 +1264,24 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), ptt15:(ColumnTo[A15],ToStatement[A15]), ptt16:(ColumnTo[A16],ToStatement[A16]), ptt17:(ColumnTo[A17],ToStatement[A17]), r:Manifest[R]) extends AbstractMagicParser17[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1, ptt15._1, ptt16._1, ptt17._1,r) with  M17[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
-        lazy val pt15 = ptt15 
-        lazy val pt16 = ptt16 
-        lazy val pt17 = ptt17 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
+        lazy val pt15 = ptt15
+        lazy val pt16 = ptt16
+        lazy val pt17 = ptt17
 }
 
     case class MagicParser17[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, R](
@@ -1303,7 +1303,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14, a15:A15, a16:A16, a17:A17):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17)] = companion.unapply(r)
-    }        
+    }
 
     case class Description17(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -1314,11 +1314,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser18[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18,R]( 
+    abstract class AbstractMagicParser18[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18,R](
         tableDescription:Option[Description18]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], c15:ColumnTo[A15], c16:ColumnTo[A16], c17:ColumnTo[A17], c18:ColumnTo[A18], r:Manifest[R]) extends MParser18[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -1361,25 +1361,25 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), ptt15:(ColumnTo[A15],ToStatement[A15]), ptt16:(ColumnTo[A16],ToStatement[A16]), ptt17:(ColumnTo[A17],ToStatement[A17]), ptt18:(ColumnTo[A18],ToStatement[A18]), r:Manifest[R]) extends AbstractMagicParser18[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1, ptt15._1, ptt16._1, ptt17._1, ptt18._1,r) with  M18[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
-        lazy val pt15 = ptt15 
-        lazy val pt16 = ptt16 
-        lazy val pt17 = ptt17 
-        lazy val pt18 = ptt18 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
+        lazy val pt15 = ptt15
+        lazy val pt16 = ptt16
+        lazy val pt17 = ptt17
+        lazy val pt18 = ptt18
 }
 
     case class MagicParser18[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, R](
@@ -1401,7 +1401,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14, a15:A15, a16:A16, a17:A17, a18:A18):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18)] = companion.unapply(r)
-    }        
+    }
 
     case class Description18(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -1412,11 +1412,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser19[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19,R]( 
+    abstract class AbstractMagicParser19[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19,R](
         tableDescription:Option[Description19]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], c15:ColumnTo[A15], c16:ColumnTo[A16], c17:ColumnTo[A17], c18:ColumnTo[A18], c19:ColumnTo[A19], r:Manifest[R]) extends MParser19[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -1460,26 +1460,26 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), ptt15:(ColumnTo[A15],ToStatement[A15]), ptt16:(ColumnTo[A16],ToStatement[A16]), ptt17:(ColumnTo[A17],ToStatement[A17]), ptt18:(ColumnTo[A18],ToStatement[A18]), ptt19:(ColumnTo[A19],ToStatement[A19]), r:Manifest[R]) extends AbstractMagicParser19[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1, ptt15._1, ptt16._1, ptt17._1, ptt18._1, ptt19._1,r) with  M19[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
-        lazy val pt15 = ptt15 
-        lazy val pt16 = ptt16 
-        lazy val pt17 = ptt17 
-        lazy val pt18 = ptt18 
-        lazy val pt19 = ptt19 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
+        lazy val pt15 = ptt15
+        lazy val pt16 = ptt16
+        lazy val pt17 = ptt17
+        lazy val pt18 = ptt18
+        lazy val pt19 = ptt19
 }
 
     case class MagicParser19[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, R](
@@ -1501,7 +1501,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14, a15:A15, a16:A16, a17:A17, a18:A18, a19:A19):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19)] = companion.unapply(r)
-    }        
+    }
 
     case class Description19(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -1512,11 +1512,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser20[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20,R]( 
+    abstract class AbstractMagicParser20[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20,R](
         tableDescription:Option[Description20]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], c15:ColumnTo[A15], c16:ColumnTo[A16], c17:ColumnTo[A17], c18:ColumnTo[A18], c19:ColumnTo[A19], c20:ColumnTo[A20], r:Manifest[R]) extends MParser20[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -1561,27 +1561,27 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), ptt15:(ColumnTo[A15],ToStatement[A15]), ptt16:(ColumnTo[A16],ToStatement[A16]), ptt17:(ColumnTo[A17],ToStatement[A17]), ptt18:(ColumnTo[A18],ToStatement[A18]), ptt19:(ColumnTo[A19],ToStatement[A19]), ptt20:(ColumnTo[A20],ToStatement[A20]), r:Manifest[R]) extends AbstractMagicParser20[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1, ptt15._1, ptt16._1, ptt17._1, ptt18._1, ptt19._1, ptt20._1,r) with  M20[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
-        lazy val pt15 = ptt15 
-        lazy val pt16 = ptt16 
-        lazy val pt17 = ptt17 
-        lazy val pt18 = ptt18 
-        lazy val pt19 = ptt19 
-        lazy val pt20 = ptt20 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
+        lazy val pt15 = ptt15
+        lazy val pt16 = ptt16
+        lazy val pt17 = ptt17
+        lazy val pt18 = ptt18
+        lazy val pt19 = ptt19
+        lazy val pt20 = ptt20
 }
 
     case class MagicParser20[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, R](
@@ -1603,7 +1603,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14, a15:A15, a16:A16, a17:A17, a18:A18, a19:A19, a20:A20):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20)] = companion.unapply(r)
-    }        
+    }
 
     case class Description20(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -1614,11 +1614,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser21[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21,R]( 
+    abstract class AbstractMagicParser21[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21,R](
         tableDescription:Option[Description21]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], c15:ColumnTo[A15], c16:ColumnTo[A16], c17:ColumnTo[A17], c18:ColumnTo[A18], c19:ColumnTo[A19], c20:ColumnTo[A20], c21:ColumnTo[A21], r:Manifest[R]) extends MParser21[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -1664,28 +1664,28 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), ptt15:(ColumnTo[A15],ToStatement[A15]), ptt16:(ColumnTo[A16],ToStatement[A16]), ptt17:(ColumnTo[A17],ToStatement[A17]), ptt18:(ColumnTo[A18],ToStatement[A18]), ptt19:(ColumnTo[A19],ToStatement[A19]), ptt20:(ColumnTo[A20],ToStatement[A20]), ptt21:(ColumnTo[A21],ToStatement[A21]), r:Manifest[R]) extends AbstractMagicParser21[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1, ptt15._1, ptt16._1, ptt17._1, ptt18._1, ptt19._1, ptt20._1, ptt21._1,r) with  M21[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
-        lazy val pt15 = ptt15 
-        lazy val pt16 = ptt16 
-        lazy val pt17 = ptt17 
-        lazy val pt18 = ptt18 
-        lazy val pt19 = ptt19 
-        lazy val pt20 = ptt20 
-        lazy val pt21 = ptt21 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
+        lazy val pt15 = ptt15
+        lazy val pt16 = ptt16
+        lazy val pt17 = ptt17
+        lazy val pt18 = ptt18
+        lazy val pt19 = ptt19
+        lazy val pt20 = ptt20
+        lazy val pt21 = ptt21
 }
 
     case class MagicParser21[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, R](
@@ -1707,7 +1707,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14, a15:A15, a16:A16, a17:A17, a18:A18, a19:A19, a20:A20, a21:A21):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20, a21)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21)] = companion.unapply(r)
-    }        
+    }
 
     case class Description21(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 
@@ -1718,11 +1718,11 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
 
 
 
-    abstract class AbstractMagicParser22[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22,R]( 
+    abstract class AbstractMagicParser22[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22,R](
         tableDescription:Option[Description22]=None,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
         (implicit c1:ColumnTo[A1], c2:ColumnTo[A2], c3:ColumnTo[A3], c4:ColumnTo[A4], c5:ColumnTo[A5], c6:ColumnTo[A6], c7:ColumnTo[A7], c8:ColumnTo[A8], c9:ColumnTo[A9], c10:ColumnTo[A10], c11:ColumnTo[A11], c12:ColumnTo[A12], c13:ColumnTo[A13], c14:ColumnTo[A14], c15:ColumnTo[A15], c16:ColumnTo[A16], c17:ColumnTo[A17], c18:ColumnTo[A18], c19:ColumnTo[A19], c20:ColumnTo[A20], c21:ColumnTo[A21], c22:ColumnTo[A22], r:Manifest[R]) extends MParser22[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, R] {
-        
+
             lazy val p1 = c1
             lazy val p2 = c2
             lazy val p3 = c3
@@ -1769,29 +1769,29 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
         conventions: PartialFunction[AnalyserInfo,String] = defaultConvention)
        (implicit ptt1:(ColumnTo[A1],ToStatement[A1]), ptt2:(ColumnTo[A2],ToStatement[A2]), ptt3:(ColumnTo[A3],ToStatement[A3]), ptt4:(ColumnTo[A4],ToStatement[A4]), ptt5:(ColumnTo[A5],ToStatement[A5]), ptt6:(ColumnTo[A6],ToStatement[A6]), ptt7:(ColumnTo[A7],ToStatement[A7]), ptt8:(ColumnTo[A8],ToStatement[A8]), ptt9:(ColumnTo[A9],ToStatement[A9]), ptt10:(ColumnTo[A10],ToStatement[A10]), ptt11:(ColumnTo[A11],ToStatement[A11]), ptt12:(ColumnTo[A12],ToStatement[A12]), ptt13:(ColumnTo[A13],ToStatement[A13]), ptt14:(ColumnTo[A14],ToStatement[A14]), ptt15:(ColumnTo[A15],ToStatement[A15]), ptt16:(ColumnTo[A16],ToStatement[A16]), ptt17:(ColumnTo[A17],ToStatement[A17]), ptt18:(ColumnTo[A18],ToStatement[A18]), ptt19:(ColumnTo[A19],ToStatement[A19]), ptt20:(ColumnTo[A20],ToStatement[A20]), ptt21:(ColumnTo[A21],ToStatement[A21]), ptt22:(ColumnTo[A22],ToStatement[A22]), r:Manifest[R]) extends AbstractMagicParser22[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, R](tableDescription = tableDescription, conventions = conventions)(
 ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1, ptt10._1, ptt11._1, ptt12._1, ptt13._1, ptt14._1, ptt15._1, ptt16._1, ptt17._1, ptt18._1, ptt19._1, ptt20._1, ptt21._1, ptt22._1,r) with  M22[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, R]{
- 
-        lazy val pt1 = ptt1 
-        lazy val pt2 = ptt2 
-        lazy val pt3 = ptt3 
-        lazy val pt4 = ptt4 
-        lazy val pt5 = ptt5 
-        lazy val pt6 = ptt6 
-        lazy val pt7 = ptt7 
-        lazy val pt8 = ptt8 
-        lazy val pt9 = ptt9 
-        lazy val pt10 = ptt10 
-        lazy val pt11 = ptt11 
-        lazy val pt12 = ptt12 
-        lazy val pt13 = ptt13 
-        lazy val pt14 = ptt14 
-        lazy val pt15 = ptt15 
-        lazy val pt16 = ptt16 
-        lazy val pt17 = ptt17 
-        lazy val pt18 = ptt18 
-        lazy val pt19 = ptt19 
-        lazy val pt20 = ptt20 
-        lazy val pt21 = ptt21 
-        lazy val pt22 = ptt22 
+
+        lazy val pt1 = ptt1
+        lazy val pt2 = ptt2
+        lazy val pt3 = ptt3
+        lazy val pt4 = ptt4
+        lazy val pt5 = ptt5
+        lazy val pt6 = ptt6
+        lazy val pt7 = ptt7
+        lazy val pt8 = ptt8
+        lazy val pt9 = ptt9
+        lazy val pt10 = ptt10
+        lazy val pt11 = ptt11
+        lazy val pt12 = ptt12
+        lazy val pt13 = ptt13
+        lazy val pt14 = ptt14
+        lazy val pt15 = ptt15
+        lazy val pt16 = ptt16
+        lazy val pt17 = ptt17
+        lazy val pt18 = ptt18
+        lazy val pt19 = ptt19
+        lazy val pt20 = ptt20
+        lazy val pt21 = ptt21
+        lazy val pt22 = ptt22
 }
 
     case class MagicParser22[ A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, R](
@@ -1813,7 +1813,7 @@ ptt1._1, ptt2._1, ptt3._1, ptt4._1, ptt5._1, ptt6._1, ptt7._1, ptt8._1, ptt9._1,
            override def thisClass = companion.getClass
            def apply(a1:A1, a2:A2, a3:A3, a4:A4, a5:A5, a6:A6, a7:A7, a8:A8, a9:A9, a10:A10, a11:A11, a12:A12, a13:A13, a14:A14, a15:A15, a16:A16, a17:A17, a18:A18, a19:A19, a20:A20, a21:A21, a22:A22):R = companion( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20, a21, a22)
            def unapply(r:R):Option[( A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22)] = companion.unapply(r)
-    }        
+    }
 
     case class Description22(table:String,columns: Option[(String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String)]=None)
 

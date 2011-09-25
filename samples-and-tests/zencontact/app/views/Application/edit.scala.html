@@ -1,7 +1,7 @@
 @(contact:Option[models.Contact] = None)(implicit errors:Map[String,play.data.validation.Error])
 
 @main(title = contact.map("Contact " + _.id).getOrElse("New contact"), current = "form") {
-    
+
     @form(controllers.Application.save(contact.flatMap(_.id.get))) {
 
         <input type="hidden" name="contact.id" value="@contact.map(_.id)">
@@ -37,8 +37,8 @@
         <script type="text/javascript" charset="utf-8">
             $("#birthdate").datepicker({dateFormat:'yy-mm-dd', showAnim:'fadeIn'})
         </script>
-    
+
     }
-    
+
 }
 

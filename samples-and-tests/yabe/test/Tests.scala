@@ -171,37 +171,37 @@ class BasicTests extends UnitFlatSpec with ShouldMatchers with BeforeAndAfterEac
         Post.delete("where id={pid}").on("pid" -> postJava.id()).executeUpdate()
         Post.findTaggedWith("Scala").length should be(1)
     }
-    
+
     it should "retrieves a list of Post for a List of Tags" in {
         User.create(User(Id(1), "nmartignole@touilleur-express.fr", "secret1", "Nicolas", false))
         val postScala=Post.create(Post(NotAssigned, "My SCala post", "Scala  for dummies", new Date, 1))
         postScala.tagItWith("Scala")
-        
+
         // Create a new post, tag it with Scala and SQL
         val post3=Post.create(Post(NotAssigned, "Third post", "A Post about Scala and NoSQL", new Date, 1))
         post3.tagItWith("Scala")
         post3.tagItWith("NoSQL")
-        
+
         Post.findTaggedWith(List("Scala")).length should be(2)
         Post.findTaggedWith(List("NoSQL")).length should be(1)
         Post.findTaggedWith(List("Scala","NoSQL")).length should be(1)
     }
-    
+
     it should "returns a Tag Cloud" in {
         User.create(User(Id(1), "nmartignole@touilleur-express.fr", "secret1", "Nicolas", false))
-        
+
         val postJava=Post.create(Post(NotAssigned, "My first post", "Java 7 is out!", new Date, 1))
         postJava.tagItWith("Java")
         postJava.tagItWith("JEE")
-        
+
         val postScalaJava =Post.create(Post(NotAssigned, "Another post", "Java and Scala : yes it rocks!", new Date, 1))
         postScalaJava.tagItWith("Java")
         postScalaJava.tagItWith("Scala")
-        
+
         val cloud:List[(String,Long)]=TagsForPosts.getCloud
-        
+
         cloud.length should be(3)
-        
+
         cloud.map { tagAndTotal =>
             tagAndTotal match {
                 case ("Java",cpt)  => cpt should be(2)
