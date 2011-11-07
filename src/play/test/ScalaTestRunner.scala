@@ -20,7 +20,7 @@ object ScalaTestRunner {
                       val result = new TestResult
                       result.name = "Test creation"
                       result.time = 0
-                      result.error = e.getMessage
+                      result.error = e.toString
 
                       val tmpout = new java.io.StringWriter
                       e.printStackTrace(new java.io.PrintWriter(tmpout))
@@ -89,7 +89,7 @@ class PlayReporter extends Reporter {
                 results.passed = false
 
                 throwable match {
-                    case Some(e) => result.error = e.getMessage
+                    case Some(e) => result.error = e.toString
                     case None => result.error = message
                 }
 
